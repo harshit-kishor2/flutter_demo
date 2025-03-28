@@ -37,6 +37,34 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+
+    flavorDimensions "app"
+
+    productFlavors {
+        dev {
+            dimension "app"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "PCP Dev"
+            versionCode 1
+            versionName "1.0.0-dev"
+        }
+        stg {
+            dimension "app"
+            applicationIdSuffix ".stg"
+            resValue "string", "app_name", "PCP Stg"
+            versionCode 1
+            versionName "1.0.0-stg"
+        }
+        prod {
+            dimension "app"
+            // Uncomment if you need a suffix for prod
+            // applicationIdSuffix ".prod"
+            resValue "string", "app_name", "PCP"
+            versionCode 1
+            versionName "1.0.0"
+        }
+    }
+
 }
 
 flutter {

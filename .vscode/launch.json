@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "PCP (Dev)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_dev.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "dev"]
+    },
+    {
+      "name": "PCP (Stg)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_stg.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "stg"]
+    },
+    {
+      "name": "PCP",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "prod"]
+    }
+  ]
+}
