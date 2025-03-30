@@ -52,6 +52,7 @@ generated/
 # Env files
 env/*
 !env/.env.example
+!env/README.md
 
 
 scripts/
