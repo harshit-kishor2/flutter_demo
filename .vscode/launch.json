@@ -24,6 +24,30 @@
       "program": "lib/main.dart",
       "flutterMode": "debug",
       "args": ["--flavor", "prod"]
-    }
+    },
+    {
+      "name": "PCP-iOS (Dev)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_dev.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "Dev"]
+    },
+    {
+      "name": "PCP-iOS (Stg)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_stg.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "Stg"]
+    },
+    {
+      "name": "PCP-iOS",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      // "args": ["--flavor", "Runner"]
+    },
   ]
 }
