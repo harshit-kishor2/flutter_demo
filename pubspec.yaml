@@ -47,9 +47,12 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/images/
+    - env/.env.dev
+    - env/.env.stg
+    - env/.env.prod
     - assets/fonts/
-    - env/
+    - assets/images/
+    - assets/svgs/
   fonts:
     - family: OpenSans
       fonts:

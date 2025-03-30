@@ -51,7 +51,7 @@ generated/
 
 # Env files
 env/*
-!env/.env.temp
+!env/.env.example
 
 
 scripts/
