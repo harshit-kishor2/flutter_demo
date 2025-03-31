@@ -1,7 +1,6 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:person_plan/core/helper/logger.dart';
+part of 'app_initializer.dart';
 
-class MyBlocObserver extends BlocObserver {
+class _MyBlocObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);

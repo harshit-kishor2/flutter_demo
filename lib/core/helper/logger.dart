@@ -36,6 +36,17 @@ void printWarning(String message, {bool record = true}) {
   }
 }
 
+/// Prints a info message with the [Logger.level] set to [Level.info].
+/// If [record] is true, the log message is also recorded to the server.
+void printInfo(String message, {bool record = true}) {
+  if (kDebugMode) {
+    _logger.i(message); // Print the message with the info level
+  }
+  if (record) {
+    _recordLog(message, logType: 'info'); // Record the log message to the server
+  }
+}
+
 /// Records a log message to the server.
 ///
 /// The [logType] parameter is the type of the log message, which can be

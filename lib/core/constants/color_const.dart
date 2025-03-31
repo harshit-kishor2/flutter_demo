@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ColorConst {
+abstract final class ColorConst {
+  ColorConst._(); // Private constructor to prevent instantiation
+
   // Primary Colors
   static const Color primary = Color(0xFF1976D2); // Blue
   static const Color primaryDark = Color(0xFF0D47A1); // Darker Blue

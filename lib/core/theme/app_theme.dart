@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:person_plan/core/constants/color_const.dart';
-import 'package:person_plan/theme/text_styles.dart';
+import 'package:person_plan/core/theme/text_styles.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {

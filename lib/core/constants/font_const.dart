@@ -1,4 +1,6 @@
-class FontConst {
+abstract final class FontConst {
+  FontConst._(); // Private constructor to prevent instantiation
+
   // OpenSans family
   static const String openSansFamily = 'OpenSans';
   static const String openSansBold = '$openSansFamily-Bold';

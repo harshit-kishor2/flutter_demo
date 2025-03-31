@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/constants/image_const.dart';
 import 'package:person_plan/core/helper/package_info_helper.dart';
 import 'package:person_plan/di/injection_container.dart';
+import 'package:person_plan/routes/route_const.dart';
 
 // Constants
 const _animationDuration = Duration(milliseconds: 2000);
@@ -44,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     Future.delayed(_splashDuration, () {
       if (mounted) {
         // Check if widget is still mounted
-        // context.go(RouteConst.login); // Navigate to login route
+        context.go(RouteConst.login); // Navigate to login route
       }
     });
   }

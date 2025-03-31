@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:person_plan/app/all_global_bloc_providers.dart';
-import 'package:person_plan/app/responsive_ui_wrapper.dart';
-import 'package:person_plan/generated/l10n.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/routes/app_router.dart';
-import 'package:person_plan/theme/app_theme.dart';
-import 'package:person_plan/theme/theme_cubit.dart';
+import 'package:person_plan/core/theme/app_theme.dart';
+import 'package:person_plan/core/theme/theme_cubit.dart';
+
+part 'responsive_ui_wrapper.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -23,7 +25,7 @@ class App extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               themeMode: themeMode,
               localizationsDelegates: const [
-                S.delegate,
+                I18n.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,

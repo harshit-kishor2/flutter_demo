@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:person_plan/di/injection_container.dart';
-import 'package:person_plan/theme/theme_cubit.dart';
+import 'package:person_plan/core/theme/theme_cubit.dart';
 
 class AllGlobalBlocProviders extends StatelessWidget {
   final Widget child;

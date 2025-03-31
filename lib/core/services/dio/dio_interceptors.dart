@@ -1,45 +1,18 @@
-import 'package:dio/dio.dart';
-import 'package:person_plan/core/constants/api_const.dart';
-import 'package:person_plan/core/helper/logger.dart';
-import 'package:person_plan/core/services/shared_pref.dart';
-import 'package:person_plan/di/injection_container.dart';
-
-class DioClient {
-  late final Dio _dio;
-  final String _baseUrl = ApiConst.baseUrl;
-
-  // Constructor to initialize Dio with options and interceptor
-  DioClient() : _dio = Dio() {
-    _dio.options = _dioOptions();
-    _dio.interceptors.add(_CustomInterceptor());
-  }
-
-  BaseOptions _dioOptions() {
-    return BaseOptions(
-      baseUrl: _baseUrl,
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 60),
-      sendTimeout: const Duration(seconds: 60),
-      headers: {"Accept": "application/json"},
-    );
-  }
-
-  Dio get client => _dio;
-}
-
+part of 'dio_client.dart';
 // Custom Interceptor class
+
 class _CustomInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     try {
       // Add authentication token if available
-      String token = serviceLocator<SharedPref>().bearerToken;
+      String token = SharedPrefUtils.bearerToken;
       if (token.isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
       }
 
       // Add app version to headers (Optional)
-      options.headers['app-version'] = serviceLocator<SharedPref>().appVersion;
+      options.headers['app-version'] = SharedPrefUtils.appVersion;
 
       // Log request details
       printLog('REQUEST[${options.method}] => PATH: ${options.path}');

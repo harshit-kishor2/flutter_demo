@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:person_plan/core/helper/logger.dart';
 
-class EnvConfig {
+abstract final class EnvConfig {
   EnvConfig._();
   static String get developmentEnvFile => 'env/.env.dev';
   static String get stagingEnvFile => 'env/.env.stg';

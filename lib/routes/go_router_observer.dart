@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:person_plan/core/helper/logger.dart';
+part of 'app_router.dart';
 
-class GoRouterObserver extends NavigatorObserver {
+class _GoRouterObserver extends NavigatorObserver {
   @override
   void didPush(final Route<dynamic> route, final Route<dynamic>? previousRoute) {
     printLog('Pushed: ${route.settings.name}, with arguments: ${route.settings.arguments}');

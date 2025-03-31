@@ -48,7 +48,8 @@ app.*.map.json
 
 # auto generated files and folders
 generated/
-
+**/i18n/intl/
+**/i18n/*.dart
 # Env files
 env/*
 !env/.env.example
