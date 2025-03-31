@@ -6,11 +6,19 @@ import 'package:person_plan/core/helper/package_info_helper.dart';
 import 'package:person_plan/core/services/dio/dio_client.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/core/theme/theme_cubit.dart';
+import 'package:person_plan/features/guest/presentation/bloc/guest_bloc.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
 Future<void> initializeServiceLocater() async {
   printInfo('Starting service locator initialization...');
+
+  serviceLocator.registerLazySingleton<GuestBloc>(() => GuestBloc());
+
+// ================ Theme Cubit ================
+  // A singleton ensures that there’s only one instance of ThemeCubit
+  serviceLocator.registerLazySingleton<ThemeCubit>(
+      () => ThemeCubit(sharedPref: serviceLocator<SharedPref>()));
 
 // ============== Shared Pref Helper ==============
   // Register SharedPref as a singleton
@@ -26,7 +34,7 @@ Future<void> initializeServiceLocater() async {
 
 // ================ Package Info Helper ================
   // Register PackageInfoHelper as a singleton
-  serviceLocator.registerFactory<PackageInfoHelper>(() => PackageInfoHelper.instance);
+  serviceLocator.registerLazySingleton<PackageInfoHelper>(() => PackageInfoHelper.instance);
   await PackageInfoHelper.initialize();
 
 // ================ Dio Client ================
@@ -34,13 +42,6 @@ Future<void> initializeServiceLocater() async {
   serviceLocator.registerLazySingleton<DioClient>(() => DioClient());
   // Register Dio instance so you can inject it directly
   serviceLocator.registerLazySingleton<Dio>(() => serviceLocator<DioClient>().client);
-
-// ================ Theme Cubit ================
-  // A singleton ensures that there’s only one instance of ThemeCubit
-  serviceLocator.registerLazySingleton<ThemeCubit>(
-      () => ThemeCubit(sharedPref: serviceLocator<SharedPref>()));
-
-  // All other services can be registered here
 
   // Wait for all async registrations to complete
   await serviceLocator.allReady();

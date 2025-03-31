@@ -1,10 +1,12 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/constants/image_const.dart';
 import 'package:person_plan/core/helper/package_info_helper.dart';
 import 'package:person_plan/di/injection_container.dart';
+import 'package:person_plan/features/guest/presentation/bloc/guest_bloc.dart';
 import 'package:person_plan/routes/route_const.dart';
 
 // Constants
@@ -14,7 +16,6 @@ const _scaleBegin = 1.0;
 const _scaleEnd = 1.2;
 const _versionBottomPadding = 15.0;
 const _versionRightPadding = 25.0;
-const _splashDuration = Duration(seconds: 5); // Added splash duration
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     _initializeAnimations();
-    _navigateToLogin();
+    serviceLocator<GuestBloc>().add(AppStarted());
   }
 
   void _initializeAnimations() {
@@ -42,29 +43,33 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _controller.forward();
   }
 
-  void _navigateToLogin() {
-    Future.delayed(_splashDuration, () {
-      if (mounted) {
-        // Check if widget is still mounted
-        context.go(RouteConst.login); // Navigate to login route
-      }
-    });
-  }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+  _listenGuestBloc(BuildContext guestContext, GuestState guestState) {
+    if (guestState.isSplashEnd) {
+      if (guestState.isAuthenticated) {
+        context.go(RouteConst.home);
+      } else {
+        context.go(RouteConst.login);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _AnimatedImage(controller: _controller),
-          _AppVersion(),
-        ],
+      body: BlocListener<GuestBloc, GuestState>(
+        listener: _listenGuestBloc,
+        child: Stack(
+          children: [
+            _AnimatedImage(controller: _controller),
+            _AppVersion(),
+          ],
+        ),
       ),
     );
   }

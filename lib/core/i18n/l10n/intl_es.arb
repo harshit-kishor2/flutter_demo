@@ -1,3 +1,7 @@
 {
-	"helloWorld": "¡Hola Mundo!"
+	"helloWorld": "¡Hola Mundo!",
+	"code_404": "404",
+	"page_not_found": "Oops! Página no encontrada",
+	"page_not_found_desc": "La página que estás buscando no existe o ha sido movida.",
+	"back_to_home": "Volver a la página principal"
 }
