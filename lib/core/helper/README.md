@@ -4,6 +4,7 @@ This folder contains utility helpers for common functionalities used throughout 
 
 ## Files and Their Purpose
 
+- **`bloc_reset_helper.dart`**: Helper for resetting initial state of all blocs on logout.
 - **`device_info_helper.dart`**: Helper for retrieving device information.
 - **`env_config.dart`**: Environment configuration (e.g., development and production settings).
 - **`event_state.dart`**: State management utilities for handling event states (Idle, Pending, Success, Failed).
