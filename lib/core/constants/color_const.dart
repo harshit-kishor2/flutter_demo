@@ -20,4 +20,7 @@ abstract final class ColorConst {
   static const Color error = Color(0xFFD32F2F); // Red
   static const Color success = Color(0xFF388E3C); // Green
   static const Color warning = Color(0xFFFFA000); // Orange
+
+  // Custom Colors
+  static const Color linkColor = Color(0xFF1976D2); // Blue
 }

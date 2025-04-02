@@ -5,7 +5,6 @@ The `theme/` folder contains files responsible for managing the app's theming, i
 ## Folder Structure
 
 - **`app_theme.dart`**: Defines the app's main theme, including light and dark mode configurations.
-- **`text_styles.dart`**: Contains predefined text styles for maintaining typography consistency.
 - **`theme_cubit.dart`**: Manages theme state using the Cubit state management pattern.
 
 ## Usage
@@ -55,23 +54,10 @@ ElevatedButton(
 )
 ```
 
-### 3. Using Text Styles
-
-Apply predefined text styles from `text_styles.dart`:
-
-```dart
-import 'package:your_app/theme/text_styles.dart';
-
-Text(
-  "Hello, World!",
-  style: TextStyles.heading,
-)
-```
-
 ## Notes
 
 - This folder ensures a centralized and scalable approach to theming.
-- Theme customization can be done easily by modifying `app_theme.dart` and `text_styles.dart`.
+- Theme customization can be done easily by modifying `app_theme.dart`.
 - `theme_cubit.dart` is used for dynamically switching themes within the app.
 
 This structure helps in maintaining a consistent UI across the app with easy theme management.

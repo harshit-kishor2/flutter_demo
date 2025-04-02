@@ -6,5 +6,6 @@ abstract final class ImageConst {
 
 abstract final class SvgConst {
   SvgConst._(); // Private constructor to prevent instantiation
-  static const String appIcon = 'assets/svgs/app.svg';
+  static const String appleIcon = 'assets/svgs/apple_icon.svg';
+  static const String googleIcon = 'assets/svgs/google_icon.svg';
 }

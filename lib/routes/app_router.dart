@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/features/authentication/presentation/pages/login_screen.dart';
+import 'package:person_plan/features/authentication/presentation/pages/register_screen.dart';
+import 'package:person_plan/features/dashboard/presentation/pages/home_screen.dart';
 import 'package:person_plan/features/guest/presentation/pages/page_not_found.dart';
 import 'package:person_plan/features/guest/presentation/pages/splash_screen.dart';
 import 'package:person_plan/routes/route_const.dart';
@@ -37,6 +39,16 @@ final GoRouter routerConfig = GoRouter(
       path: RouteConst.login,
       name: RouteConst.login,
       builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: RouteConst.register,
+      name: RouteConst.register,
+      builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: RouteConst.home,
+      name: RouteConst.home,
+      builder: (context, state) => const HomeScreen(),
     ),
   ],
 );
