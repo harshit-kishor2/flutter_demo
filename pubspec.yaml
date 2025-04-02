@@ -30,9 +30,18 @@ dependencies:
   device_info_plus: ^11.3.0
   # For package info
   package_info_plus: ^8.3.0
+  # For navigation
   go_router: ^14.8.1
+  # For responsive UI
   flutter_screenutil: ^5.9.3
+  # For svgs
   flutter_svg: ^2.0.17
+  # For Firebase related packages
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.2
+  cloud_firestore: ^5.6.6
+  # For Google sign in
+  google_sign_in: ^6.3.0
 
 dev_dependencies:
   flutter_test:

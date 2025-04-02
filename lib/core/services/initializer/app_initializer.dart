@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:person_plan/core/helper/env_config.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/di/injection_container.dart';
+import 'package:person_plan/firebase_options.dart';
 
 part 'bloc_observer.dart';
 
@@ -17,6 +19,11 @@ abstract final class AppInitializer {
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
+
+      // Initialize Firebase
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
       // Initialize Bloc Observer
       Bloc.observer = _MyBlocObserver();
