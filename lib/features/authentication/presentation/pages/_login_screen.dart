@@ -3,21 +3,22 @@ import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/helper/utils.dart';
 import 'package:person_plan/core/ui/app_button.dart';
+import 'package:person_plan/core/ui/or_divider.dart';
+import 'package:person_plan/core/ui/social_button.dart';
 import 'package:person_plan/features/authentication/presentation/widgets/auth_text_row.dart';
-import 'package:person_plan/features/authentication/presentation/widgets/form_header.dart';
 import 'package:person_plan/features/authentication/presentation/widgets/input_fields.dart';
+import 'package:person_plan/features/authentication/presentation/widgets/form_header.dart';
 import 'package:person_plan/routes/route_const.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -52,8 +53,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: size.height * 0.1),
-                FormHeader('Sign Up'),
+                FormHeader('Log In'),
                 SizedBox(height: size.height * 0.05),
+                _buildSocialAuthButtons(context),
+                OrDivider(
+                  verticalPadding: 32.0,
+                ),
                 _buildLoginForm(context),
               ],
             ),
@@ -63,32 +68,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  Widget _buildSocialAuthButtons(BuildContext context) {
+    return Column(
+      children: [
+        SocialButton(
+          type: SocialLoginType.google,
+          onTap: () {},
+        ),
+        const SizedBox(height: 16.0),
+        SocialButton(
+          type: SocialLoginType.apple,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
   Widget _buildLoginForm(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          NameInputField(nameController: _nameController),
-          const SizedBox(height: 16.0),
           EmailInputField(emailController: _emailController),
-          const SizedBox(height: 16.0),
-          PasswordInputField(passwordController: _passwordController),
           const SizedBox(height: 16.0),
           PasswordInputField(passwordController: _passwordController),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: AppButton(onTap: _onSubmitForm, text: "Sign Up"),
+            child: AppButton(onTap: _onSubmitForm, text: "Log In"),
           ),
           const SizedBox(height: 16.0),
           AuthTextRow(
-            mainText: "Already have an account?",
-            actionText: "Log In",
+            mainText: "Don't have an account?",
+            actionText: "Sign Up",
             onActionPressed: () {
-              context.go(RouteConst.login);
+              context.go(RouteConst.register);
             },
           ),
         ],
       ),
     );
   }
+
+  // End
 }

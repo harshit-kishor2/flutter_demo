@@ -1,89 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:person_plan/core/constants/color_const.dart';
 
-/// Custom Class for Light & Dark Text Themes
+/// A utility class that provides light and dark text themes for the app.
+/// This class cannot be instantiated.
 class AppTextTheme {
-  AppTextTheme._(); // To avoid creating instances
+  AppTextTheme._(); // Private constructor to prevent instantiation
 
-  /// Customizable Light Text Theme
-  static TextTheme lightTextTheme = TextTheme(
-    ///
-    /// Headlines & Titles 32
-    headlineLarge: const TextStyle()
-        .copyWith(fontSize: 32.0, fontWeight: FontWeight.bold, color: ColorConst.textLight),
-    headlineMedium: const TextStyle()
-        .copyWith(fontSize: 24.0, fontWeight: FontWeight.w600, color: ColorConst.textLight),
-    headlineSmall: const TextStyle()
-        .copyWith(fontSize: 18.0, fontWeight: FontWeight.w600, color: ColorConst.textLight),
-    titleLarge: const TextStyle()
-        .copyWith(fontSize: 16.0, fontWeight: FontWeight.w600, color: ColorConst.textLight),
-    titleMedium: const TextStyle()
-        .copyWith(fontSize: 16.0, fontWeight: FontWeight.w500, color: ColorConst.textLight),
-    titleSmall: const TextStyle()
-        .copyWith(fontSize: 16.0, fontWeight: FontWeight.w400, color: ColorConst.textLight),
-    bodyLarge: const TextStyle()
-        .copyWith(fontSize: 14.0, fontWeight: FontWeight.w500, color: ColorConst.textLight),
-    bodyMedium: const TextStyle()
-        .copyWith(fontSize: 14.0, fontWeight: FontWeight.normal, color: ColorConst.textLight),
-    bodySmall: const TextStyle().copyWith(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w500,
-      color: ColorConst.textLight.withValues(alpha: 0.5),
-    ),
-    labelLarge: const TextStyle().copyWith(
-      fontSize: 12.0,
-      fontWeight: FontWeight.w500,
-      color: ColorConst.textLight,
-    ),
-    labelMedium: const TextStyle().copyWith(
-      fontSize: 12.0,
-      fontWeight: FontWeight.normal,
-      color: ColorConst.textLight,
-    ),
-    labelSmall: const TextStyle().copyWith(
-      fontSize: 12.0,
-      fontWeight: FontWeight.normal,
-      color: ColorConst.textLight.withValues(alpha: 0.5),
-    ),
+  /// Light Theme Text Styles
+  static final TextTheme lightTextTheme = TextTheme(
+    headlineLarge: _style(32, FontWeight.bold, ColorConst.textLight),
+    headlineMedium: _style(28, FontWeight.w600, ColorConst.textLight),
+    headlineSmall: _style(22, FontWeight.w600, ColorConst.textLight),
+    titleLarge: _style(20, FontWeight.w600, ColorConst.textLight),
+    titleMedium: _style(18, FontWeight.w500, ColorConst.textLight),
+    titleSmall: _style(18, FontWeight.w400, ColorConst.textLight),
+    bodyLarge: _style(16, FontWeight.w500, ColorConst.textLight),
+    bodyMedium: _style(16, FontWeight.normal, ColorConst.textLight), // Default font size
+    bodySmall: _style(14, FontWeight.w500, ColorConst.textLight.withValues(alpha: 0.5)),
+    labelLarge: _style(14, FontWeight.w500, ColorConst.textLight),
+    labelMedium: _style(12, FontWeight.normal, ColorConst.textLight),
+    labelSmall: _style(10, FontWeight.normal, ColorConst.textLight.withValues(alpha: 0.5)),
   );
 
-  /// Customizable Dark Text Theme
-  static TextTheme darkTextTheme = TextTheme(
-    headlineLarge: const TextStyle()
-        .copyWith(fontSize: 32.0, fontWeight: FontWeight.bold, color: ColorConst.textDark),
-    headlineMedium: const TextStyle()
-        .copyWith(fontSize: 24.0, fontWeight: FontWeight.w600, color: ColorConst.textDark),
-    headlineSmall: const TextStyle()
-        .copyWith(fontSize: 18.0, fontWeight: FontWeight.w600, color: ColorConst.textDark),
-    titleLarge: const TextStyle()
-        .copyWith(fontSize: 16.0, fontWeight: FontWeight.w600, color: ColorConst.textDark),
-    titleMedium: const TextStyle()
-        .copyWith(fontSize: 16.0, fontWeight: FontWeight.w500, color: ColorConst.textDark),
-    titleSmall: const TextStyle()
-        .copyWith(fontSize: 16.0, fontWeight: FontWeight.w400, color: ColorConst.textDark),
-    bodyLarge: const TextStyle()
-        .copyWith(fontSize: 14.0, fontWeight: FontWeight.w500, color: ColorConst.textDark),
-    bodyMedium: const TextStyle()
-        .copyWith(fontSize: 14.0, fontWeight: FontWeight.normal, color: ColorConst.textDark),
-    bodySmall: const TextStyle().copyWith(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w500,
-      color: ColorConst.textDark.withValues(alpha: 0.5),
-    ),
-    labelLarge: const TextStyle().copyWith(
-      fontSize: 12.0,
-      fontWeight: FontWeight.w500,
-      color: ColorConst.textDark,
-    ),
-    labelMedium: const TextStyle().copyWith(
-      fontSize: 12.0,
-      fontWeight: FontWeight.normal,
-      color: ColorConst.textDark,
-    ),
-    labelSmall: const TextStyle().copyWith(
-      fontSize: 12.0,
-      fontWeight: FontWeight.normal,
-      color: ColorConst.textDark.withValues(alpha: 0.5),
-    ),
+  /// Dark Theme Text Styles
+  static final TextTheme darkTextTheme = TextTheme(
+    headlineLarge: _style(32, FontWeight.bold, ColorConst.textDark),
+    headlineMedium: _style(28, FontWeight.w600, ColorConst.textDark),
+    headlineSmall: _style(22, FontWeight.w600, ColorConst.textDark),
+    titleLarge: _style(20, FontWeight.w600, ColorConst.textDark),
+    titleMedium: _style(18, FontWeight.w500, ColorConst.textDark),
+    titleSmall: _style(18, FontWeight.w400, ColorConst.textDark),
+    bodyLarge: _style(16, FontWeight.w500, ColorConst.textDark),
+    bodyMedium: _style(16, FontWeight.normal, ColorConst.textDark), // Default font size
+    bodySmall: _style(14, FontWeight.w500, ColorConst.textDark.withValues(alpha: 0.5)),
+    labelLarge: _style(14, FontWeight.w500, ColorConst.textDark),
+    labelMedium: _style(12, FontWeight.normal, ColorConst.textDark),
+    labelSmall: _style(10, FontWeight.normal, ColorConst.textDark.withValues(alpha: 0.5)),
   );
+
+  /// Helper method to create a text style with given parameters
+  static TextStyle _style(double size, FontWeight weight, Color color) {
+    return TextStyle(fontSize: size, fontWeight: weight, color: color);
+  }
 }

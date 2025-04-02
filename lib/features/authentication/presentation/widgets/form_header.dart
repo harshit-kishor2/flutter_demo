@@ -8,7 +8,7 @@ class FormHeader extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Text(
       title,
-      style: textTheme.headlineLarge,
+      style: textTheme.headlineMedium,
     );
   }
 }

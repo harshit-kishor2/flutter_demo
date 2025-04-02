@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:person_plan/di/injection_container.dart';
 import 'package:person_plan/core/theme/theme_cubit.dart';
-import 'package:person_plan/features/guest/presentation/bloc/guest_bloc.dart';
+import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 class AllGlobalBlocProviders extends StatelessWidget {
   final Widget child;
@@ -22,7 +22,7 @@ class AllGlobalBlocProviders extends StatelessWidget {
       providers: [
         // All global blocs
         BlocProvider<ThemeCubit>(create: (_) => serviceLocator<ThemeCubit>()),
-        BlocProvider<GuestBloc>(create: (_) => serviceLocator<GuestBloc>()),
+        BlocProvider<AuthenticationBloc>(create: (_) => serviceLocator<AuthenticationBloc>()),
       ],
       child: child,
     );

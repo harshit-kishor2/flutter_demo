@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:person_plan/core/helper/utils.dart';
-import 'package:person_plan/core/ui/app_button.dart';
-import 'package:person_plan/core/ui/or_divider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:person_plan/core/constants/image_const.dart';
 import 'package:person_plan/core/ui/social_button.dart';
-import 'package:person_plan/features/authentication/presentation/widgets/auth_text_row.dart';
-import 'package:person_plan/features/authentication/presentation/widgets/input_fields.dart';
+import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:person_plan/features/authentication/presentation/widgets/form_header.dart';
-import 'package:person_plan/routes/route_const.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,48 +13,38 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void _onSubmitForm() {
-    if (_formKey.currentState!.validate()) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
-      print('Email: $email, Password: $password');
-      // Add your authentication logic here
-      context.go(RouteConst.home);
-    }
+  /// Handles the tap event on the "Log in with Google" button.
+  ///
+  /// Adds a [GoogleLoginEvent] to the [AuthenticationBloc] to trigger the
+  /// authentication process with Google.
+  void _onGoogleLoginPressed() {
+    context.read<AuthenticationBloc>().add(GoogleLoginEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () => Utils.dismissKeyboard(context),
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: size.height * 0.1),
                 FormHeader('Log In'),
-                SizedBox(height: size.height * 0.05),
-                _buildSocialAuthButtons(context),
-                OrDivider(
-                  verticalPadding: 32.0,
+                SizedBox(height: 60),
+                CircleAvatar(
+                  radius: 100,
+                  backgroundImage: AssetImage(
+                    ImageConst.appIcon,
+                  ),
+                  backgroundColor: Colors.transparent,
                 ),
-                _buildLoginForm(context),
+                SizedBox(height: 60),
+                SocialButton(
+                  type: SocialLoginType.google,
+                  onTap: _onGoogleLoginPressed,
+                ),
               ],
             ),
           ),
@@ -66,47 +52,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  Widget _buildSocialAuthButtons(BuildContext context) {
-    return Column(
-      children: [
-        SocialButton(
-          type: SocialLoginType.google,
-          onTap: () {},
-        ),
-        const SizedBox(height: 16.0),
-        SocialButton(
-          type: SocialLoginType.apple,
-          onTap: () {},
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLoginForm(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          EmailInputField(emailController: _emailController),
-          const SizedBox(height: 16.0),
-          PasswordInputField(passwordController: _passwordController),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: AppButton(onTap: _onSubmitForm, text: "Log In"),
-          ),
-          const SizedBox(height: 16.0),
-          AuthTextRow(
-            mainText: "Don't have an account?",
-            actionText: "Sign Up",
-            onActionPressed: () {
-              context.go(RouteConst.register);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // End
 }
