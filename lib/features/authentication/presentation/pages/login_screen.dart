@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:person_plan/core/constants/enum.dart';
 import 'package:person_plan/core/constants/image_const.dart';
 import 'package:person_plan/core/ui/social_button.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';

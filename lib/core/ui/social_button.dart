@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:person_plan/core/constants/enum.dart';
 import 'package:person_plan/core/constants/image_const.dart';
 import 'package:person_plan/core/ui/custom_styles.dart';
-
-enum SocialLoginType { google, apple }
 
 class SocialButton extends StatelessWidget {
   final SocialLoginType type;

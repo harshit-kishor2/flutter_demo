@@ -4,6 +4,7 @@ import 'package:person_plan/core/constants/app_const.dart';
 import 'package:person_plan/core/helper/event_state.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
+import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 
@@ -13,11 +14,16 @@ part 'authentication_state.dart';
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final GoogleLoginUseCase googleLoginUseCase;
   final LogoutUserUseCase logoutUserUseCase;
-  AuthenticationBloc({required this.googleLoginUseCase, required this.logoutUserUseCase})
-      : super(AuthenticationState.initial()) {
+  final AppleLoginUseCase appleLoginUseCase;
+  AuthenticationBloc({
+    required this.appleLoginUseCase,
+    required this.googleLoginUseCase,
+    required this.logoutUserUseCase,
+  }) : super(AuthenticationState.initial()) {
     on<AppStarted>(_onAppStarted);
     on<ResetAuthenticationEvent>(_onResetAuthenticationEvent);
     on<GoogleLoginEvent>(_onGoogleLoginEvent);
+    on<AppleLoginEvent>(_onAppleLoginEvent);
     on<LogoutEvent>(_onLogoutEvent);
   }
 
@@ -41,9 +47,40 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   _onGoogleLoginEvent(GoogleLoginEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(loginEventState: EventPending()));
     try {
-      final result = await googleLoginUseCase();
+      final result = await googleLoginUseCase.execute();
       result.fold(
-        (error) => emit(state.copyWith(loginEventState: EventFailedWithMessage(message: error))),
+        (failure) {
+          emit(
+            state.copyWith(loginEventState: EventFailedWithMessage(message: failure.message)),
+          );
+        },
+        (user) {
+          emit(state.copyWith(
+            isAuthenticated: true,
+            loginEventState: EventSuccess(),
+            user: user,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(state.copyWith(
+        loginEventState: EventFailedWithMessage(message: e.toString()),
+      ));
+    } finally {
+      emit(state.copyWith(loginEventState: EventIdle()));
+    }
+  }
+
+  _onAppleLoginEvent(AppleLoginEvent event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(loginEventState: EventPending()));
+    try {
+      final result = await appleLoginUseCase.execute();
+      result.fold(
+        (failure) {
+          emit(state.copyWith(
+            loginEventState: EventFailedWithMessage(message: failure.message),
+          ));
+        },
         (user) {
           emit(state.copyWith(
             isAuthenticated: true,
@@ -62,10 +99,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   _onLogoutEvent(LogoutEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(logoutEventState: EventPending()));
     try {
-      await logoutUserUseCase();
-      emit(state.copyWith(logoutEventState: EventSuccess()));
+      final result = await logoutUserUseCase.execute();
+      result.fold(
+        (failure) => emit(
+            state.copyWith(logoutEventState: EventFailedWithMessage(message: failure.message))),
+        (message) =>
+            emit(state.copyWith(logoutEventState: EventSuccessWithMessage(message: message))),
+      );
     } catch (e) {
-      emit(state.copyWith(logoutEventState: EventFailed()));
+      emit(state.copyWith(logoutEventState: EventFailedWithMessage(message: 'Logout failed: $e')));
     } finally {
       emit(state.copyWith(logoutEventState: EventIdle()));
     }

@@ -3,10 +3,10 @@ import 'package:person_plan/core/helper/base_failure.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
 
-class GoogleLoginUseCase {
-  AuthRepository authRepository;
+class AppleLoginUseCase {
+  final AuthRepository authRepository;
 
-  GoogleLoginUseCase(this.authRepository);
+  AppleLoginUseCase(this.authRepository);
 
-  Future<Either<Failure, UserEntity>> execute() async => await authRepository.loginWithGoogle();
+  Future<Either<Failure, UserEntity>> execute() async => await authRepository.loginWithApple();
 }

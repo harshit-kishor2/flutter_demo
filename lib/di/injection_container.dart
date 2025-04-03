@@ -12,6 +12,7 @@ import 'package:person_plan/features/authentication/data/datasources/auth_local_
 import 'package:person_plan/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:person_plan/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -25,13 +26,18 @@ Future<void> initializeServiceLocater() async {
 
 // bloc
   serviceLocator.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
-      googleLoginUseCase: serviceLocator(), logoutUserUseCase: serviceLocator()));
+        googleLoginUseCase: serviceLocator(),
+        logoutUserUseCase: serviceLocator(),
+        appleLoginUseCase: serviceLocator(),
+      ));
 
 // use cases
   serviceLocator
       .registerLazySingleton<GoogleLoginUseCase>(() => GoogleLoginUseCase(serviceLocator()));
   serviceLocator
       .registerLazySingleton<LogoutUserUseCase>(() => LogoutUserUseCase(serviceLocator()));
+  serviceLocator
+      .registerLazySingleton<AppleLoginUseCase>(() => AppleLoginUseCase(serviceLocator()));
 
 // repositories
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(

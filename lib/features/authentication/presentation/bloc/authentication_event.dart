@@ -11,6 +11,8 @@ class AppStarted extends AuthenticationEvent {}
 
 class GoogleLoginEvent extends AuthenticationEvent {}
 
+class AppleLoginEvent extends AuthenticationEvent {}
+
 class LogoutEvent extends AuthenticationEvent {}
 
 class ResetAuthenticationEvent extends AuthenticationEvent {}
