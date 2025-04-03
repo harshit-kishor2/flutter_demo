@@ -23,4 +23,5 @@ abstract final class ColorConst {
 
   // Custom Colors
   static const Color linkColor = Color(0xFF1976D2); // Blue
+  static const Color borderColor = Color(0xFFE0E0E0); // Light Gray
 }

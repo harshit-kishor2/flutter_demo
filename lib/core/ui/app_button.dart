@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   final Widget? icon;
   final EdgeInsets? padding;
   final double? height;
+  final double? width;
   final BoxDecoration? decoration;
   final TextStyle? textStyle;
 
@@ -21,6 +22,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.padding,
     this.height,
+    this.width,
     this.decoration,
     this.textStyle,
   });
@@ -33,7 +35,7 @@ class AppButton extends StatelessWidget {
     return GestureDetector(
       onTap: isButtonEnabled ? onTap : null,
       child: Container(
-        width: double.infinity,
+        width: width ?? double.infinity,
         height: height ?? CustomStyles.buttonHeight,
         padding: padding ?? CustomStyles.buttonPadding,
         decoration: decoration?.copyWith(

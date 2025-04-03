@@ -56,6 +56,14 @@ abstract final class SharedPrefUtils {
     await _sharedPref.clearAll();
   }
 
+//! =========== On logout clear some data =========== //
+
+  static Future<void> clearOnLogout() async {
+    final bool currentFirstLaunch = isFirstLaunch;
+    await _sharedPref.clearAll();
+    await setIsFirstLaunch(currentFirstLaunch);
+  }
+
 //! =========== remove =========== //
   static Future<void> remove(String key) async {
     await _sharedPref.remove(key);

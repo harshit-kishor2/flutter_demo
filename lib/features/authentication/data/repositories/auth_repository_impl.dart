@@ -1,5 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fpdart/fpdart.dart';
+import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/data/datasources/auth_local_data_source.dart';
 
@@ -19,11 +19,29 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<String, UserEntity>> loginWithGoogle() async {
     try {
       final user = await authRemoteDataSource.signInWithGoogle();
-      await localDataSource.saveUserOnLocalDB(user);
-      await SharedPrefUtils.setIsAuthenticate(true);
+      await Future.wait([
+        localDataSource.saveUserOnLocalDB(user),
+        SharedPrefUtils.setIsAuthenticate(true),
+      ]);
       return Right(user);
     } catch (e) {
-      return Left(e.toString());
+      printError('Error logging in with Google:');
+      return Left('Error logging in with Google.');
+    }
+  }
+
+  @override
+  Future<Either<String, String>> logoutUser() async {
+    try {
+      await authRemoteDataSource.signOut();
+      await Future.wait([
+        localDataSource.deleteUserFromLocalDB(),
+        SharedPrefUtils.clearOnLogout(),
+      ]);
+      return Right('User logged out successfully.');
+    } catch (e) {
+      printError('Error logging out:');
+      return Left('Error logging out.');
     }
   }
 }

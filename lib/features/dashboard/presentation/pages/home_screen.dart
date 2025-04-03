@@ -1,71 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:person_plan/features/dashboard/presentation/widgets/drawer_screen.dart';
+import 'package:person_plan/features/dashboard/presentation/widgets/home_header.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextButton(
-              onPressed: () {},
-              child: const Text(
-                'SUBMIT',
-                style: TextStyle(color: Colors.blueAccent, fontSize: 16),
-              ),
+      drawer: DrawerScreen(),
+      body: Column(
+        children: [
+          HomeHeader(),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              children: [
+                _buildListTile(title: ' Agree to Contract Terms'),
+                _buildListTile(title: 'Personal Info'),
+                _buildListTile(title: 'Bio Info'),
+                _buildListTile(title: 'Diagnosis'),
+                _buildListTile(title: 'Strengths'),
+                _buildListTile(title: 'Challenges', trailingIcon: Icons.image),
+                _buildListTile(title: 'Likes', trailingIcon: Icons.image),
+                _buildListTile(title: 'Dislikes'),
+                _buildListTile(title: 'Independence'),
+                _buildListTile(title: 'Needs Help'),
+                _buildListTile(title: 'Activities'),
+                _buildListTile(title: 'Dislike Activities'),
+                _buildListTile(title: 'Primary Support Team'),
+                _buildListTile(title: 'Secondary Support Team'),
+                _buildListTile(title: 'Dreams'),
+              ],
             ),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Registration',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 24),
-            _buildListTile(title: 'Agree to Contract Terms'),
-            _buildListTile(title: 'Personal Info'),
-            _buildListTile(title: 'Bio Info'),
-            _buildListTile(title: 'Strengths'),
-            _buildListTile(title: 'Challenges', trailingIcon: Icons.image),
-            _buildListTile(title: 'Likes', trailingIcon: Icons.image),
-            _buildListTile(title: 'Dislikes'),
-            _buildListTile(title: 'Independence'),
-            _buildListTile(title: 'Needs Help'),
-            _buildListTile(title: 'Activities'),
-            _buildListTile(title: 'Dreams'),
-          ],
-        ),
-      ),
     );
   }
+}
 
-  Widget _buildListTile({required String title, IconData? trailingIcon}) {
-    return ListTile(
+Widget _buildListTile({
+  required String title,
+  IconData? trailingIcon,
+}) {
+  return Card(
+    elevation: 2,
+    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 16, color: Colors.black87),
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       trailing: Icon(
         trailingIcon ?? Icons.arrow_forward_ios,
-        size: 16,
-        color: Colors.grey,
+        color: Colors.blue.shade700,
+        size: 24,
       ),
-      onTap: () {},
-    );
-  }
+      onTap: () {
+        // Add your navigation or click handling here
+      },
+    ),
+  );
 }

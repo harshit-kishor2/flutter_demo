@@ -5,15 +5,16 @@ import 'package:person_plan/core/helper/event_state.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
 import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
+import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final GoogleLoginUseCase googleLoginUseCase;
-  AuthenticationBloc({
-    required this.googleLoginUseCase,
-  }) : super(AuthenticationState.initial()) {
+  final LogoutUserUseCase logoutUserUseCase;
+  AuthenticationBloc({required this.googleLoginUseCase, required this.logoutUserUseCase})
+      : super(AuthenticationState.initial()) {
     on<AppStarted>(_onAppStarted);
     on<ResetAuthenticationEvent>(_onResetAuthenticationEvent);
     on<GoogleLoginEvent>(_onGoogleLoginEvent);
@@ -58,15 +59,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  _onLogoutEvent(LogoutEvent event, Emitter<AuthenticationState> emit) {
-    emit(state.copyWith(loginEventState: EventPending()));
+  _onLogoutEvent(LogoutEvent event, Emitter<AuthenticationState> emit) async {
+    emit(state.copyWith(logoutEventState: EventPending()));
     try {
-      // call logout here
-      emit(state.copyWith(loginEventState: EventSuccess()));
+      await logoutUserUseCase();
+      emit(state.copyWith(logoutEventState: EventSuccess()));
     } catch (e) {
-      emit(state.copyWith(loginEventState: EventFailed()));
+      emit(state.copyWith(logoutEventState: EventFailed()));
     } finally {
-      emit(state.copyWith(loginEventState: EventIdle()));
+      emit(state.copyWith(logoutEventState: EventIdle()));
     }
   }
 }

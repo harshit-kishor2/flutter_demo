@@ -6,4 +6,8 @@ class AuthLocalDataSource {
   Future<void> saveUserOnLocalDB(UserModel user) async {
     // await hiveService.saveUser(user);
   }
+
+  Future<void> deleteUserFromLocalDB() async {
+    // await hiveService.deleteUser();
+  }
 }

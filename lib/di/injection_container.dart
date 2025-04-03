@@ -13,6 +13,7 @@ import 'package:person_plan/features/authentication/data/datasources/auth_remote
 import 'package:person_plan/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
+import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -23,12 +24,14 @@ Future<void> initializeServiceLocater() async {
 //! ================ Authentication Feature ================
 
 // bloc
-  serviceLocator.registerFactory<AuthenticationBloc>(
-      () => AuthenticationBloc(googleLoginUseCase: serviceLocator()));
+  serviceLocator.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
+      googleLoginUseCase: serviceLocator(), logoutUserUseCase: serviceLocator()));
 
 // use cases
   serviceLocator
       .registerLazySingleton<GoogleLoginUseCase>(() => GoogleLoginUseCase(serviceLocator()));
+  serviceLocator
+      .registerLazySingleton<LogoutUserUseCase>(() => LogoutUserUseCase(serviceLocator()));
 
 // repositories
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
