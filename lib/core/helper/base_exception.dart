@@ -1,6 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:person_plan/core/constants/enum.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 
+class _ErrorCodes {
+  static const String authCancelled = 'AUTH_CANCELLED';
+  static const String tokenError = 'TOKEN_ERROR';
+  static const String userDataError = 'USER_DATA_ERROR';
+  static const String networkError = 'NETWORK_ERROR';
+  static const String unexpectedError = 'UNEXPECTED_ERROR';
+  static const String accountConflict = 'ACCOUNT_CONFLICT';
+  static const String invalidCredentials = 'INVALID_CREDENTIALS';
+  static const String methodNotAllowed = 'METHOD_NOT_ALLOWED';
+  static const String userDisabled = 'USER_DISABLED';
+  static const String userNotFound = 'USER_NOT_FOUND';
+  static const String wrongPassword = 'WRONG_PASSWORD';
+  static const String tooManyRequests = 'TOO_MANY_REQUESTS';
+  static const String firebaseError = 'FIREBASE_ERROR';
+  static const String signInFailed = 'SIGN_IN_FAILED';
+  static const String platformError = 'PLATFORM_ERROR';
+}
+
+/// Base class for custom exceptions.
 class BaseException implements Exception {
   final String code;
   final String message;
@@ -12,58 +33,53 @@ class BaseException implements Exception {
 
   // Predefined exception creators
 
-  static BaseException cancelled(String method) =>
-      BaseException('AUTH_CANCELLED', 'You cancelled the $method Sign-In process');
+  static BaseException cancelled(SocialLoginType method) =>
+      BaseException(_ErrorCodes.authCancelled, I18n.current.AUTH_CANCELLED(method.name));
 
-  static BaseException tokenFailure(String method) =>
-      BaseException('TOKEN_ERROR', 'Unable to obtain $method authentication tokens');
+  static BaseException tokenFailure(SocialLoginType method) =>
+      BaseException(_ErrorCodes.tokenError, I18n.current.TOKEN_ERROR(method.name));
 
   static BaseException userDataFailure() =>
-      BaseException('USER_DATA_ERROR', 'Unable to retrieve your account information');
+      BaseException(_ErrorCodes.userDataError, I18n.current.USER_DATA_ERROR);
   static BaseException networkError() =>
-      BaseException('NETWORK_ERROR', 'Please check your internet connection');
+      BaseException(_ErrorCodes.networkError, I18n.current.NETWORK_ERROR);
 
   static BaseException unexpected(String methodName) =>
-      BaseException('UNEXPECTED_ERROR', 'Unexpected error during $methodName: Please try again');
+      BaseException(_ErrorCodes.unexpectedError, I18n.current.UNEXPECTED_ERROR(methodName));
 
   static BaseException fromFirebaseAuth(FirebaseAuthException e) {
     switch (e.code) {
       case 'account-exists-with-different-credential':
-        return BaseException(
-            'ACCOUNT_CONFLICT', 'This account is already linked with a different sign-in method');
+        return BaseException(_ErrorCodes.accountConflict, I18n.current.ACCOUNT_CONFLICT);
       case 'invalid-credential':
-        return BaseException(
-            'INVALID_CREDENTIALS', 'Invalid credentials: Please check your account details');
+        return BaseException(_ErrorCodes.invalidCredentials, I18n.current.INVALID_CREDENTIALS);
       case 'operation-not-allowed':
-        return BaseException(
-            'METHOD_NOT_ALLOWED', 'This sign-in method is not enabled for this app');
+        return BaseException(_ErrorCodes.methodNotAllowed, I18n.current.METHOD_NOT_ALLOWED);
       case 'user-disabled':
-        return BaseException('USER_DISABLED', 'Your account has been disabled');
+        return BaseException(_ErrorCodes.userDisabled, I18n.current.USER_DISABLED);
       case 'user-not-found':
-        return BaseException('USER_NOT_FOUND', 'No account found with these credentials');
+        return BaseException(_ErrorCodes.userNotFound, I18n.current.USER_NOT_FOUND);
       case 'wrong-password':
-        return BaseException('WRONG_PASSWORD', 'Incorrect password');
+        return BaseException(_ErrorCodes.wrongPassword, I18n.current.WRONG_PASSWORD);
       case 'too-many-requests':
-        return BaseException('TOO_MANY_REQUESTS', 'Too many attempts: Please try again later');
+        return BaseException(_ErrorCodes.tooManyRequests, I18n.current.TOO_MANY_REQUESTS);
       case 'network-request-failed':
-        return BaseException(
-            'NETWORK_ERROR', 'Network error: Please check your internet connection');
+        return BaseException(_ErrorCodes.networkError, I18n.current.NETWORK_ERROR);
       default:
         return BaseException(
-            'FIREBASE_ERROR', 'Sign-in failed: ${e.message ?? 'An unexpected error occurred'}');
+            _ErrorCodes.firebaseError, I18n.current.FIREBASE_ERROR(e.message ?? ''));
     }
   }
 
   static BaseException fromPlatform(PlatformException e) {
     switch (e.code) {
       case 'sign_in_failed':
-        return BaseException('SIGN_IN_FAILED', 'Sign-in failed: Please try again');
+        return BaseException(_ErrorCodes.signInFailed, I18n.current.SIGN_IN_FAILED);
       case 'network_error':
-        return BaseException(
-            'NETWORK_ERROR', 'Network error: Please check your internet connection');
+        return BaseException(_ErrorCodes.networkError, I18n.current.NETWORK_ERROR);
       default:
         return BaseException(
-            'PLATFORM_ERROR', 'Platform error: ${e.message ?? 'An unexpected error occurred'}');
+            _ErrorCodes.platformError, I18n.current.PLATFORM_ERROR(e.message ?? ''));
     }
   }
 }

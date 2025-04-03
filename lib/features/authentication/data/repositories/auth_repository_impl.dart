@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:person_plan/core/helper/base_exception.dart';
 import 'package:person_plan/core/helper/base_failure.dart';
 import 'package:person_plan/core/helper/logger.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:person_plan/features/authentication/data/datasources/auth_remote_data_source.dart';
@@ -95,8 +96,9 @@ class AuthRepositoryImpl implements AuthRepository {
         SharedPrefUtils.clearOnLogout(),
       ]);
 
+      printLog('User signed out');
       // Return a success message
-      return Right('Successfully signed out');
+      return Right(I18n.current.sign_out_success);
     } catch (e) {
       // Handle unexpected errors
       return _handleAuthError(e, 'logoutUser');
@@ -138,7 +140,7 @@ class AuthRepositoryImpl implements AuthRepository {
     // If the error is not a BaseException, FirebaseAuthException, or PlatformException,
     // then it is an unexpected error
     final exception = BaseException.unexpected(methodName);
-    printError('${exception.code} - ${exception.message}: $error');
+    printError('Exception : ${exception.code} - ${exception.message}: $error');
     return Left(BaseFailure(exception.message));
   }
 }

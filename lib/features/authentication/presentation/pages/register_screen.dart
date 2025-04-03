@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/helper/utils.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/core/ui/app_button.dart';
 import 'package:person_plan/features/authentication/presentation/widgets/auth_text_row.dart';
 import 'package:person_plan/features/authentication/presentation/widgets/form_header.dart';
@@ -52,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: size.height * 0.1),
-                FormHeader('Sign Up'),
+                FormHeader(I18n.of(context).signup_title),
                 SizedBox(height: size.height * 0.05),
                 _buildLoginForm(context),
               ],
@@ -77,12 +78,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           PasswordInputField(passwordController: _passwordController),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: AppButton(onTap: _onSubmitForm, text: "Sign Up"),
+            child: AppButton(onTap: _onSubmitForm, text: I18n.of(context).signup_button),
           ),
           const SizedBox(height: 16.0),
           AuthTextRow(
-            mainText: "Already have an account?",
-            actionText: "Log In",
+            mainText: I18n.of(context).register_auth_row_text,
+            actionText: I18n.of(context).login_button,
             onActionPressed: () {
               context.go(RouteConst.login);
             },

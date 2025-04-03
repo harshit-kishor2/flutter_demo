@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:person_plan/core/constants/app_const.dart';
 import 'package:person_plan/core/helper/event_state.dart';
+import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
 import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
@@ -31,13 +32,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     emit(AuthenticationState.initial());
   }
 
-  void _onAppStarted(AppStarted event, Emitter<AuthenticationState> emit) async {
-    // Wait for the splash screen to end
+  _onAppStarted(AppStarted event, Emitter<AuthenticationState> emit) async {
     await Future.delayed(Duration(seconds: AppConst.splashDurationInSeconds));
-    // Handle the first launch
     await SharedPrefUtils.handleFirstLaunch();
-
-    // Emit the new state
     emit(state.copyWith(
       isSplashEnd: true,
       isAuthenticated: SharedPrefUtils.isAuthenticated,
@@ -63,9 +60,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         },
       );
     } catch (e) {
-      emit(state.copyWith(
-        loginEventState: EventFailedWithMessage(message: e.toString()),
-      ));
+      printError('Google login error inside bloc: $e');
+      emit(state.copyWith(loginEventState: EventFailed()));
     } finally {
       emit(state.copyWith(loginEventState: EventIdle()));
     }
@@ -90,7 +86,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         },
       );
     } catch (e) {
-      emit(state.copyWith(loginEventState: EventFailedWithMessage(message: e.toString())));
+      printError('Apple login error inside bloc: $e');
+      emit(state.copyWith(loginEventState: EventFailed()));
     } finally {
       emit(state.copyWith(loginEventState: EventIdle()));
     }
@@ -107,7 +104,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
             emit(state.copyWith(logoutEventState: EventSuccessWithMessage(message: message))),
       );
     } catch (e) {
-      emit(state.copyWith(logoutEventState: EventFailedWithMessage(message: 'Logout failed: $e')));
+      printError('Logout error inside bloc: $e');
+      emit(state.copyWith(logoutEventState: EventFailed()));
     } finally {
       emit(state.copyWith(logoutEventState: EventIdle()));
     }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:person_plan/core/helper/extensions.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 
 // ! Email Input Fields
 class EmailInputField extends StatelessWidget {
@@ -12,16 +14,15 @@ class EmailInputField extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        hintText: 'Enter your email',
+        hintText: I18n.of(context).email_hint,
         prefixIcon: Icon(Icons.email_outlined),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your email';
+        if (value.isEmptyOrNull) {
+          return I18n.of(context).email_error_empty;
         }
-        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-        if (!emailRegex.hasMatch(value)) {
-          return 'Please enter a valid email address';
+        if (!value.isValidEmail) {
+          return I18n.of(context).email_error_invalid;
         }
         return null;
       },
@@ -43,15 +44,14 @@ class PasswordInputField extends StatelessWidget {
       textInputAction: TextInputAction.done,
       obscureText: true,
       decoration: InputDecoration(
-        hintText: 'Enter your password',
+        hintText: I18n.of(context).password_hint,
         prefixIcon: Icon(Icons.lock_outline),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your password';
-        }
-        if (value.length < 6) {
-          return 'Password must be at least 6 characters long';
+        if (value.isEmptyOrNull) {
+          return I18n.of(context).password_error_empty;
+        } else if (value!.length < 6) {
+          return I18n.of(context).password_error_short;
         }
         return null;
       },
@@ -73,15 +73,14 @@ class NameInputField extends StatelessWidget {
       textInputAction: TextInputAction.done,
       obscureText: true,
       decoration: InputDecoration(
-        hintText: 'Enter your name',
+        hintText: I18n.of(context).name_hint,
         prefixIcon: Icon(Icons.lock_outline),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your name';
-        }
-        if (value.length < 6) {
-          return 'Name must be at least 6 characters long';
+        if (value.isEmptyOrNull) {
+          return I18n.of(context).name_error_empty;
+        } else if (value!.length < 6) {
+          return I18n.of(context).name_error_short;
         }
         return null;
       },

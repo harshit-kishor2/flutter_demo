@@ -8,6 +8,7 @@ This folder contains all the assets used in the project, organized into specific
 assets/
   ├── images/           # Contains all image assets (JPEG, PNG, etc.)
   ├── svgs/             # Contains all SVG assets
+  ├── animations/       # Contains all animation assets
   ├── fonts/            # Contains all custom fonts
   ├── launcherIcons/    # Contains app launcher icons
   ├── README.md         # Documentation for the assets folder
@@ -47,6 +48,13 @@ class SvgConst {
 }
 ```
 
+```dart
+class AnimationConst {
+  // Example
+  static const String loader = 'assets/animations/loader.lottie';
+}
+```
+
 ## Usage
 
 To use an asset in your Flutter project, ensure it is declared in `pubspec.yaml`:
@@ -57,6 +65,7 @@ flutter:
     - assets/images/
     - assets/svgs/
     - assets/fonts/
+    - assets/animations/
 
   fonts:
     - family: Roboto

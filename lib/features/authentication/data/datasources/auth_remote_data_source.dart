@@ -6,6 +6,9 @@ import 'package:person_plan/core/helper/utils.dart';
 import 'package:person_plan/features/authentication/data/models/user_model.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+const String _unknown = 'unknown';
+const String _appleProvider = 'apple.com';
+
 class AuthRemoteDataSource {
   final GoogleSignIn googleSignIn;
   final FirebaseAuth firebaseAuth;
@@ -22,7 +25,7 @@ class AuthRemoteDataSource {
     // 1. Request Google sign in
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
-      throw BaseException.cancelled(SocialLoginType.google.name);
+      throw BaseException.cancelled(SocialLoginType.google);
     }
 
     // 2. Get Google sign in authentication
@@ -30,7 +33,7 @@ class AuthRemoteDataSource {
 
     // 3. Check if the authentication was successful
     if (googleAuth.accessToken == null || googleAuth.idToken == null) {
-      throw BaseException.tokenFailure(SocialLoginType.google.name);
+      throw BaseException.tokenFailure(SocialLoginType.google);
     }
 
     // 4. Create a Firebase Auth credential from the Google authentication
@@ -53,7 +56,7 @@ class AuthRemoteDataSource {
     // 8. Return the user as a UserModel
     return UserModel(
       uid: user.uid,
-      name: user.displayName ?? 'Unknown',
+      name: user.displayName ?? _unknown,
       email: user.email ?? '',
       photoUrl: user.photoURL ?? '',
     );
@@ -81,11 +84,11 @@ class AuthRemoteDataSource {
     // Check if the identity token is null. This should never happen, but it's
     // better to be safe than sorry.
     if (appleCredential.identityToken == null) {
-      throw BaseException.tokenFailure(SocialLoginType.apple.name);
+      throw BaseException.tokenFailure(SocialLoginType.apple);
     }
 
     // Create a credential from the Apple sign-in.
-    final oauthCredential = OAuthProvider('apple.com').credential(
+    final oauthCredential = OAuthProvider(_appleProvider).credential(
       // The identity token is the token that is used to verify the user.
       idToken: appleCredential.identityToken,
       // The nonce is the random value we generated earlier.
@@ -106,7 +109,7 @@ class AuthRemoteDataSource {
     // case.
     final fullName = appleCredential.givenName != null && appleCredential.familyName != null
         ? '${appleCredential.givenName} ${appleCredential.familyName}'
-        : user.displayName ?? 'Unknown';
+        : user.displayName ?? _unknown;
 
     // Return the user as a UserModel.
     return UserModel(

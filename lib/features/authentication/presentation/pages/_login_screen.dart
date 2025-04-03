@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/constants/enum.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/helper/utils.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/core/ui/app_button.dart';
 import 'package:person_plan/core/ui/or_divider.dart';
 import 'package:person_plan/core/ui/social_button.dart';
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: size.height * 0.1),
-                FormHeader('Log In'),
+                FormHeader(I18n.of(context).login_title),
                 SizedBox(height: size.height * 0.05),
                 _buildSocialAuthButtons(context),
                 OrDivider(
@@ -99,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const SizedBox(height: 16.0),
           AuthTextRow(
-            mainText: "Don't have an account?",
-            actionText: "Sign Up",
+            mainText: I18n.of(context).login_auth_row_text,
+            actionText: I18n.of(context).signup_button,
             onActionPressed: () {
               context.go(RouteConst.register);
             },
