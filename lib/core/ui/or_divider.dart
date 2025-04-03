@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 
 class OrDivider extends StatelessWidget {
   final double? height;
@@ -29,7 +30,7 @@ class OrDivider extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'OR',
+              I18n.of(context).or_text,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: defaultTextColor,
               ),

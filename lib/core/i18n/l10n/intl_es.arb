@@ -37,5 +37,10 @@
 	"TOO_MANY_REQUESTS": "Demasiados intentos: Por favor, intenta de nuevo más tarde",
 	"FIREBASE_ERROR": "Fallo en el inicio de sesión: {message}",
 	"SIGN_IN_FAILED": "Fallo en el inicio de sesión: Por favor, intenta de nuevo",
-	"PLATFORM_ERROR": "Error de plataforma: {message}"
+	"PLATFORM_ERROR": "Error de plataforma: {message}",
+	"logout_button": "Cerrar sesión",
+	"logout_dialog_title": "Confirmar cierre de sesión",
+	"logout_dialog_desc": "¿Estás seguro de que quieres cerrar sesión?",
+	"logout_dialog_confirm": "Cerrar sesión",
+	"logout_dialog_cancel": "Cancelar"
 }

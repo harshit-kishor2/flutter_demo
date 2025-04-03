@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:person_plan/core/constants/color_const.dart';
 import 'package:person_plan/core/constants/enum.dart';
 import 'package:person_plan/core/constants/image_const.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/core/ui/custom_styles.dart';
 
 class SocialButton extends StatelessWidget {
@@ -18,11 +19,11 @@ class SocialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final i18n = I18n.of(context);
 
     final svgImage = type == SocialLoginType.apple ? SvgConst.appleIcon : SvgConst.googleIcon;
 
-    final buttonText =
-        type == SocialLoginType.apple ? 'Continue with Apple' : 'Continue with Google';
+    final buttonText = type == SocialLoginType.apple ? i18n.apple_login : i18n.google_login;
 
     final defaultDecoration = type == SocialLoginType.apple
         ? CustomStyles.buttonDecoration(theme).copyWith(

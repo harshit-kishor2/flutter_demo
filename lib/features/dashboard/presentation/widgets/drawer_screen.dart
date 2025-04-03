@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/helper/event_state.dart';
 import 'package:person_plan/core/helper/utils.dart';
+import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/core/ui/app_button.dart';
 import 'package:person_plan/core/ui/custom_styles.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -21,19 +22,19 @@ class DrawerScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Confirm Logout'),
-        content: const Text('Are you sure you want to log out?'),
+        title: Text(I18n.of(context).logout_dialog_title),
+        content: Text(I18n.of(context).logout_dialog_desc),
         actions: [
           TextButton(
             onPressed: () => dialogContext.pop(false),
-            child: Text('Cancel'),
+            child: Text(I18n.of(context).logout_dialog_cancel),
           ),
           TextButton(
             onPressed: () {
               dialogContext.pop(true);
               context.read<AuthenticationBloc>().add(LogoutEvent());
             },
-            child: Text('Logout'),
+            child: Text(I18n.of(context).logout_dialog_confirm),
           ),
         ],
       ),
@@ -77,7 +78,7 @@ class DrawerScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return UserAccountsDrawerHeader(
       accountName: Text(
-        state.user?.name ?? 'Unknown User',
+        state.user?.name ?? '',
         style: theme.textTheme.bodyLarge?.copyWith(
           color: theme.colorScheme.onPrimary,
         ),
@@ -104,7 +105,7 @@ class DrawerScreen extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: AppButton(
         onTap: () => _handleLogout(context),
-        text: 'Logout',
+        text: I18n.of(context).logout_button,
         decoration: CustomStyles.buttonDecoration(theme).copyWith(
           color: theme.colorScheme.secondary,
         ),

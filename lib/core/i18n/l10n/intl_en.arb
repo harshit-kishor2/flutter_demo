@@ -37,5 +37,10 @@
 	"TOO_MANY_REQUESTS": "Too many attempts: Please try again later",
 	"FIREBASE_ERROR": "Sign-in failed: {message}",
 	"SIGN_IN_FAILED": "Sign-in failed: Please try again",
-	"PLATFORM_ERROR": "Platform error: {message}"
+	"PLATFORM_ERROR": "Platform error: {message}",
+	"logout_button": "Logout",
+	"logout_dialog_title": "Confirm Logout",
+	"logout_dialog_desc": "Are you sure you want to log out?",
+	"logout_dialog_confirm": "Logout",
+	"logout_dialog_cancel": "Cancel"
 }
