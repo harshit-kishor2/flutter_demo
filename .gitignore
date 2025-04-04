@@ -57,3 +57,8 @@ env/*
 
 
 scripts/
+
+# Generated files (e.g., Isar, Freezed, JsonSerializable)
+**/*.g.dart
+**/*.freezed.dart
+**/*.mocks.dart

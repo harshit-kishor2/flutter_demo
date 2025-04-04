@@ -19,12 +19,12 @@ abstract final class SharedPrefUtils {
   }
 
 //! =========== isAuthenticated =========== //
-  static Future<void> setIsAuthenticate(bool value) async {
-    await _sharedPref.setValue(SharedPrefKeys.isAuthenticated, value);
+  static Future<void> setUserID(String value) async {
+    await _sharedPref.setValue(SharedPrefKeys.userId, value);
   }
 
-  static bool get isAuthenticated =>
-      _sharedPref.getValue<bool>(SharedPrefKeys.isAuthenticated, defaultValue: false);
+  static String get getUserID =>
+      _sharedPref.getValue<String>(SharedPrefKeys.userId, defaultValue: '');
 
 //! =========== BearerToken =========== //
   static Future<void> setBearerToken(String token) async {

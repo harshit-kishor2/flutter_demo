@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:person_plan/core/helper/env_config.dart';
 import 'package:person_plan/core/helper/logger.dart';
+import 'package:person_plan/core/services/isar/isar_service.dart';
+import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/di/injection_container.dart';
 import 'package:person_plan/firebase_options.dart';
 
@@ -33,6 +35,7 @@ abstract final class AppInitializer {
 
       // Initialize service locator for dependency injection
       await initializeServiceLocater();
+      await _connectIsar();
     } catch (e) {
       printError('Error during app initialization: $e');
     }
@@ -45,5 +48,15 @@ abstract final class AppInitializer {
 
     // Uncomment to use Firebase Crashlytics
     // FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+  }
+
+  static Future<void> _connectIsar() async {
+    // Initialize IsarService on app start
+    await IsarService.initialize();
+    final isarService = IsarService.instanceOrNull;
+    if (isarService != null) {
+      final user = await isarService.getUserByUid(SharedPrefUtils.getUserID);
+      printLog("Connected to database for user: ${user?.name}");
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
 import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
+import 'package:person_plan/features/authentication/domain/usecases/get_user_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 
@@ -17,6 +18,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     required this.appleLoginUseCase,
     required this.googleLoginUseCase,
     required this.logoutUserUseCase,
+    required this.getUserUseCase,
   }) : super(AuthenticationState.initial()) {
     on<AppStarted>(_onAppStarted);
     on<ResetAuthenticationEvent>(_onResetAuthenticationEvent);
@@ -28,6 +30,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   final GoogleLoginUseCase googleLoginUseCase;
   final LogoutUserUseCase logoutUserUseCase;
   final AppleLoginUseCase appleLoginUseCase;
+  final GetUserUseCase getUserUseCase;
 
   void _onResetAuthenticationEvent(
       ResetAuthenticationEvent event, Emitter<AuthenticationState> emit) {
@@ -35,12 +38,19 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   void _onAppStarted(AppStarted event, Emitter<AuthenticationState> emit) async {
-    await Future.delayed(const Duration(seconds: AppConst.splashDurationInSeconds));
-    await SharedPrefUtils.handleFirstLaunch();
-    emit(state.copyWith(
-      isSplashEnd: true,
-      isAuthenticated: SharedPrefUtils.isAuthenticated,
-    ));
+    await Future.wait([
+      Future.delayed(const Duration(seconds: AppConst.splashDurationInSeconds)),
+      SharedPrefUtils.handleFirstLaunch(),
+    ]);
+    final user = await getUserUseCase.execute();
+    user.fold(
+      (failure) {
+        emit(state.copyWith(isSplashEnd: true, isAuthenticated: false, user: null));
+      },
+      (user) {
+        emit(state.copyWith(isSplashEnd: true, user: user, isAuthenticated: true));
+      },
+    );
   }
 
   void _onGoogleLoginEvent(GoogleLoginEvent event, Emitter<AuthenticationState> emit) async {

@@ -13,6 +13,7 @@ import 'package:person_plan/features/authentication/data/datasources/auth_remote
 import 'package:person_plan/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
+import 'package:person_plan/features/authentication/domain/usecases/get_user_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
 import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -29,6 +30,7 @@ Future<void> initializeServiceLocater() async {
         googleLoginUseCase: serviceLocator(),
         logoutUserUseCase: serviceLocator(),
         appleLoginUseCase: serviceLocator(),
+        getUserUseCase: serviceLocator(),
       ));
 
 // use cases
@@ -38,14 +40,19 @@ Future<void> initializeServiceLocater() async {
       .registerLazySingleton<LogoutUserUseCase>(() => LogoutUserUseCase(serviceLocator()));
   serviceLocator
       .registerLazySingleton<AppleLoginUseCase>(() => AppleLoginUseCase(serviceLocator()));
+  serviceLocator.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase(serviceLocator()));
 
 // repositories
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
-      authRemoteDataSource: serviceLocator(), localDataSource: serviceLocator()));
+        authRemoteDataSource: serviceLocator(),
+        localDataSource: serviceLocator(),
+      ));
 
 // datasources
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSource(firebaseAuth: serviceLocator(), googleSignIn: serviceLocator()));
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource(
+        firebaseAuth: serviceLocator(),
+        googleSignIn: serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
 
@@ -55,21 +62,20 @@ Future<void> initializeServiceLocater() async {
       () => ThemeCubit(sharedPref: serviceLocator<SharedPref>()));
 
 //! ============== Shared Pref Helper ==============
-  // Register SharedPref as a singleton
-  serviceLocator.registerLazySingleton<SharedPref>(() => SharedPref());
-  // Initialize the SharedPref after registration
-  await serviceLocator<SharedPref>().init();
+
+  final sharedPref = SharedPref();
+  await sharedPref.init();
+  serviceLocator.registerSingleton<SharedPref>(sharedPref);
 
 //! ============== Device Info Helper ==============
-  // Register DeviceInfoHelper as a singleton
-  serviceLocator.registerLazySingleton<DeviceInfoHelper>(() => DeviceInfoHelper.instance);
-  // Initialize the DeviceInfoHelper after registration
+
   await DeviceInfoHelper.initialize();
+  serviceLocator.registerSingleton<DeviceInfoHelper>(DeviceInfoHelper.instance);
 
 //! ================ Package Info Helper ================
-  // Register PackageInfoHelper as a singleton
-  serviceLocator.registerLazySingleton<PackageInfoHelper>(() => PackageInfoHelper.instance);
+
   await PackageInfoHelper.initialize();
+  serviceLocator.registerSingleton<PackageInfoHelper>(PackageInfoHelper.instance);
 
 //! ================ Dio Client ================
 // Register DioClient as a singleton

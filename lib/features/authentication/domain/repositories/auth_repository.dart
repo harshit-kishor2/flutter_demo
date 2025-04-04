@@ -6,4 +6,5 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> loginWithGoogle();
   Future<Either<Failure, UserEntity>> loginWithApple();
   Future<Either<Failure, String>> logoutUser();
+  Future<Either<Failure, UserEntity>> getUser();
 }
