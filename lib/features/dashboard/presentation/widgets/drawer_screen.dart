@@ -68,6 +68,9 @@ class DrawerScreen extends StatelessWidget {
           ),
           const Spacer(),
           _buildLogoutButton(context),
+          SizedBox(
+            height: MediaQuery.of(context).viewPadding.bottom,
+          ),
         ],
       ),
     );

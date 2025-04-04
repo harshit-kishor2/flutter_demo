@@ -3,6 +3,7 @@ abstract final class RouteConst {
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
+  static const String form = '/form';
 
   // Add more routes as needed
 }

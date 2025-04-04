@@ -42,8 +42,11 @@ dependencies:
   cloud_firestore: ^5.6.6
   # For Google sign in
   google_sign_in: ^6.3.0
-  fpdart: ^1.1.1
+  # For apple sign in
   sign_in_with_apple: ^6.1.4
+  # for functional programming
+  fpdart: ^1.1.1
+  # For showing lottie anmations
   lottie: ^3.3.1
 
 dev_dependencies:

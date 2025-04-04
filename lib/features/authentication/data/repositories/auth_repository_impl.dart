@@ -10,6 +10,7 @@ import 'package:person_plan/features/authentication/data/datasources/auth_local_
 import 'package:person_plan/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -42,7 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
       printLog('User signed in with google: $user');
 
       return Right(user);
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       // Handle the error and return a failure
       return _handleAuthError(e, 'loginWithGoogle');
     }
@@ -120,6 +121,11 @@ class AuthRepositoryImpl implements AuthRepository {
     // Check if the error is a BaseException
     if (error is BaseException) {
       printError('Authentication error: ${error.code} - ${error.message}');
+      return Left(BaseFailure(error.message));
+    }
+
+    if (error is SignInWithAppleAuthorizationException) {
+      printError('Apple Authentication error: ${error.code} - ${error.message}');
       return Left(BaseFailure(error.message));
     }
 

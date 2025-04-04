@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/features/authentication/presentation/pages/login_screen.dart';
 import 'package:person_plan/features/authentication/presentation/pages/register_screen.dart';
+import 'package:person_plan/features/dashboard/presentation/pages/form_screen.dart';
 import 'package:person_plan/features/dashboard/presentation/pages/home_screen.dart';
+import 'package:person_plan/features/dashboard/presentation/widgets/form_section_enum.dart';
 import 'package:person_plan/features/guest/presentation/pages/page_not_found.dart';
 import 'package:person_plan/features/guest/presentation/pages/splash_screen.dart';
 import 'package:person_plan/routes/route_const.dart';
@@ -49,6 +51,14 @@ final GoRouter routerConfig = GoRouter(
       path: RouteConst.home,
       name: RouteConst.home,
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: RouteConst.form,
+      name: RouteConst.form,
+      builder: (context, state) {
+        final section = state.extra as FormSectionEnum;
+        return FormScreen(section: section);
+      },
     ),
   ],
 );
