@@ -13,13 +13,13 @@ import 'package:person_plan/features/authentication/domain/repositories/auth_rep
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource authRemoteDataSource;
-  final AuthLocalDataSource localDataSource;
-
   AuthRepositoryImpl({
     required this.authRemoteDataSource,
     required this.localDataSource,
   });
+
+  final AuthRemoteDataSource authRemoteDataSource;
+  final AuthLocalDataSource localDataSource;
 
   @override
 

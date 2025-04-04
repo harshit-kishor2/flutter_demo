@@ -10,13 +10,13 @@ const String _unknown = 'unknown';
 const String _appleProvider = 'apple.com';
 
 class AuthRemoteDataSource {
-  final GoogleSignIn googleSignIn;
-  final FirebaseAuth firebaseAuth;
-
   AuthRemoteDataSource({
     required this.googleSignIn,
     required this.firebaseAuth,
   });
+
+  final GoogleSignIn googleSignIn;
+  final FirebaseAuth firebaseAuth;
 
   /// Signs in with Google.
   ///

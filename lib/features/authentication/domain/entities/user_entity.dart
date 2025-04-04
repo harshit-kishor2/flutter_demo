@@ -3,11 +3,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
-  final String uid;
-  final String name;
-  final String email;
-  final String photoUrl;
-
   const UserEntity({
     required this.uid,
     required this.name,
@@ -15,14 +10,8 @@ class UserEntity extends Equatable {
     required this.photoUrl,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'uid': uid,
-      'name': name,
-      'email': email,
-      'photoUrl': photoUrl,
-    };
-  }
+  factory UserEntity.fromJson(String source) =>
+      UserEntity.fromMap(json.decode(source) as Map<String, dynamic>);
 
   factory UserEntity.fromMap(Map<String, dynamic> map) {
     return UserEntity(
@@ -33,10 +22,21 @@ class UserEntity extends Equatable {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  final String uid;
+  final String name;
+  final String email;
+  final String photoUrl;
 
-  factory UserEntity.fromJson(String source) =>
-      UserEntity.fromMap(json.decode(source) as Map<String, dynamic>);
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'uid': uid,
+      'name': name,
+      'email': email,
+      'photoUrl': photoUrl,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 
   @override
   bool get stringify => true;

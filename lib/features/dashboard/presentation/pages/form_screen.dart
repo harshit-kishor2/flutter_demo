@@ -4,12 +4,12 @@ import 'package:person_plan/features/dashboard/presentation/widgets/home_header.
 import 'package:person_plan/features/dashboard/presentation/widgets/navigation_row.dart';
 
 class FormScreen extends StatefulWidget {
-  final FormSectionEnum section;
-
   const FormScreen({
     super.key,
     required this.section,
   });
+
+  final FormSectionEnum section;
 
   @override
   State<FormScreen> createState() => _FormScreenState();
@@ -37,7 +37,7 @@ class _FormScreenState extends State<FormScreen> {
         _currentIndex = index;
         _pageController.animateToPage(
           _currentIndex,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
       });
@@ -72,7 +72,7 @@ class _FormScreenState extends State<FormScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         section.displayTitle,
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Expanded(child: section.getFormSectionPage()),

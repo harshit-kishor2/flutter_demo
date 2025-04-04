@@ -54,11 +54,11 @@ class _PageNotFoundContent extends StatelessWidget {
   Widget _build404Text(BuildContext context) {
     return Text(
       I18n.of(context).code_404,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 120,
         fontWeight: FontWeight.bold,
         color: Colors.white,
-        shadows: const [
+        shadows: [
           Shadow(
             blurRadius: 10.0,
             color: Colors.black26,
@@ -72,7 +72,7 @@ class _PageNotFoundContent extends StatelessWidget {
   Widget _buildErrorMessage(context) {
     return Text(
       I18n.of(context).page_not_found,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 28,
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -86,7 +86,7 @@ class _PageNotFoundContent extends StatelessWidget {
       child: Text(
         I18n.of(context).page_not_found_desc,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           color: Colors.white70,
         ),

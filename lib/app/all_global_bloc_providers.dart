@@ -5,8 +5,6 @@ import 'package:person_plan/core/theme/theme_cubit.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 class AllGlobalBlocProviders extends StatelessWidget {
-  final Widget child;
-
   /// A widget that provides all the global blocs in the app.
   ///
   /// [child] - The child widget of this widget.
@@ -15,6 +13,8 @@ class AllGlobalBlocProviders extends StatelessWidget {
     super.key,
     required this.child,
   });
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {

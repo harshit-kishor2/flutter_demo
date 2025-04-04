@@ -6,14 +6,14 @@ import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 part 'dio_interceptors.dart';
 
 class DioClient {
-  late final Dio _dio;
-  final String _baseUrl = ApiConst.baseUrl;
-
   // Constructor to initialize Dio with options and interceptor
   DioClient() : _dio = Dio() {
     _dio.options = _dioOptions();
     _dio.interceptors.add(_CustomInterceptor());
   }
+
+  late final Dio _dio;
+  final String _baseUrl = ApiConst.baseUrl;
 
   BaseOptions _dioOptions() {
     return BaseOptions(

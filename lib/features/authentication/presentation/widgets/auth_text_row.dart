@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:person_plan/core/constants/color_const.dart';
 
 class AuthTextRow extends StatelessWidget {
-  final String mainText;
-  final String actionText;
-  final VoidCallback? onActionPressed;
-
   const AuthTextRow({
     super.key,
     required this.mainText,
     required this.actionText,
     this.onActionPressed,
   });
+
+  final String mainText;
+  final String actionText;
+  final VoidCallback? onActionPressed;
 
   @override
   Widget build(BuildContext context) {

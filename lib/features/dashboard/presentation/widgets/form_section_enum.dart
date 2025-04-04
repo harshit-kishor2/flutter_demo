@@ -58,35 +58,35 @@ enum FormSectionEnum {
   Widget getFormSectionPage() {
     switch (this) {
       case FormSectionEnum.agreeToContractTerms:
-        return AgreeTermsForm();
+        return const AgreeTermsForm();
       case FormSectionEnum.personalInfo:
-        return PersonalInfoForm();
+        return const PersonalInfoForm();
       case FormSectionEnum.bioInfo:
-        return BioInfoForm();
+        return const BioInfoForm();
       case FormSectionEnum.diagnosis:
-        return DiagnosisForm();
+        return const DiagnosisForm();
       case FormSectionEnum.strengths:
-        return StrengthsForm();
+        return const StrengthsForm();
       case FormSectionEnum.challenges:
-        return ChallengesForm();
+        return const ChallengesForm();
       case FormSectionEnum.likes:
-        return LikesForm();
+        return const LikesForm();
       case FormSectionEnum.dislikes:
-        return DislikesForm();
+        return const DislikesForm();
       case FormSectionEnum.independence:
-        return IndependenceForm();
+        return const IndependenceForm();
       case FormSectionEnum.needsHelp:
-        return NeedsHelpForm();
+        return const NeedsHelpForm();
       case FormSectionEnum.activities:
-        return ActivitiesForm();
+        return const ActivitiesForm();
       case FormSectionEnum.dislikeActivities:
-        return DislikeActivitiesForm();
+        return const DislikeActivitiesForm();
       case FormSectionEnum.primarySupportTeam:
-        return PrimarySupportTeamForm();
+        return const PrimarySupportTeamForm();
       case FormSectionEnum.secondarySupportTeam:
-        return SecondarySupportTeamForm();
+        return const SecondarySupportTeamForm();
       case FormSectionEnum.dreams:
-        return DreamsForm();
+        return const DreamsForm();
     }
   }
 }

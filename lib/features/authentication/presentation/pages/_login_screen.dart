@@ -33,8 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSubmitForm() {
     if (_formKey.currentState!.validate()) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
+      final String email = _emailController.text;
+      final String password = _passwordController.text;
       printInfo('Email: $email, Password: $password');
       // Add your authentication logic here
       context.go(RouteConst.home);
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 FormHeader(I18n.of(context).login_title),
                 SizedBox(height: size.height * 0.05),
                 _buildSocialAuthButtons(context),
-                OrDivider(
+                const OrDivider(
                   verticalPadding: 32.0,
                 ),
                 _buildLoginForm(context),

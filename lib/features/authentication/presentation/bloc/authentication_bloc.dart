@@ -13,9 +13,6 @@ part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final GoogleLoginUseCase googleLoginUseCase;
-  final LogoutUserUseCase logoutUserUseCase;
-  final AppleLoginUseCase appleLoginUseCase;
   AuthenticationBloc({
     required this.appleLoginUseCase,
     required this.googleLoginUseCase,
@@ -28,12 +25,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<LogoutEvent>(_onLogoutEvent);
   }
 
-  _onResetAuthenticationEvent(ResetAuthenticationEvent event, Emitter<AuthenticationState> emit) {
+  final GoogleLoginUseCase googleLoginUseCase;
+  final LogoutUserUseCase logoutUserUseCase;
+  final AppleLoginUseCase appleLoginUseCase;
+
+  void _onResetAuthenticationEvent(
+      ResetAuthenticationEvent event, Emitter<AuthenticationState> emit) {
     emit(AuthenticationState.initial());
   }
 
-  _onAppStarted(AppStarted event, Emitter<AuthenticationState> emit) async {
-    await Future.delayed(Duration(seconds: AppConst.splashDurationInSeconds));
+  void _onAppStarted(AppStarted event, Emitter<AuthenticationState> emit) async {
+    await Future.delayed(const Duration(seconds: AppConst.splashDurationInSeconds));
     await SharedPrefUtils.handleFirstLaunch();
     emit(state.copyWith(
       isSplashEnd: true,
@@ -41,7 +43,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     ));
   }
 
-  _onGoogleLoginEvent(GoogleLoginEvent event, Emitter<AuthenticationState> emit) async {
+  void _onGoogleLoginEvent(GoogleLoginEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(loginEventState: EventPending()));
     try {
       final result = await googleLoginUseCase.execute();
@@ -63,11 +65,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       printError('Google login error inside bloc: $e');
       emit(state.copyWith(loginEventState: EventFailed()));
     } finally {
-      emit(state.copyWith(loginEventState: EventIdle()));
+      emit(state.copyWith(loginEventState: const EventIdle()));
     }
   }
 
-  _onAppleLoginEvent(AppleLoginEvent event, Emitter<AuthenticationState> emit) async {
+  void _onAppleLoginEvent(AppleLoginEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(loginEventState: EventPending()));
     try {
       final result = await appleLoginUseCase.execute();
@@ -89,11 +91,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       printError('Apple login error inside bloc: $e');
       emit(state.copyWith(loginEventState: EventFailed()));
     } finally {
-      emit(state.copyWith(loginEventState: EventIdle()));
+      emit(state.copyWith(loginEventState: const EventIdle()));
     }
   }
 
-  _onLogoutEvent(LogoutEvent event, Emitter<AuthenticationState> emit) async {
+  void _onLogoutEvent(LogoutEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(logoutEventState: EventPending()));
     try {
       final result = await logoutUserUseCase.execute();
@@ -107,7 +109,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       printError('Logout error inside bloc: $e');
       emit(state.copyWith(logoutEventState: EventFailed()));
     } finally {
-      emit(state.copyWith(logoutEventState: EventIdle()));
+      emit(state.copyWith(logoutEventState: const EventIdle()));
     }
   }
 }

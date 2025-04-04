@@ -31,8 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _onSubmitForm() {
     if (_formKey.currentState!.validate()) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
+      final String email = _emailController.text;
+      final String password = _passwordController.text;
       printInfo('Email: $email, Password: $password');
       // Add your authentication logic here
       context.go(RouteConst.home);

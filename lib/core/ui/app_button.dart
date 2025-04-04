@@ -2,17 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:person_plan/core/ui/custom_styles.dart';
 
 class AppButton extends StatelessWidget {
-  final VoidCallback? onTap;
-  final String text;
-  final bool isLoading;
-  final bool isDisabled;
-  final Widget? icon;
-  final EdgeInsets? padding;
-  final double? height;
-  final double? width;
-  final BoxDecoration? decoration;
-  final TextStyle? textStyle;
-
   const AppButton({
     super.key,
     required this.onTap,
@@ -26,6 +15,17 @@ class AppButton extends StatelessWidget {
     this.decoration,
     this.textStyle,
   });
+
+  final VoidCallback? onTap;
+  final String text;
+  final bool isLoading;
+  final bool isDisabled;
+  final Widget? icon;
+  final EdgeInsets? padding;
+  final double? height;
+  final double? width;
+  final BoxDecoration? decoration;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,8 @@ class AppButton extends StatelessWidget {
               Container(
                 height: 16,
                 width: 16,
-                margin: EdgeInsets.only(right: 8.0),
-                child: CircularProgressIndicator(
+                margin: const EdgeInsets.only(right: 8.0),
+                child: const CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),

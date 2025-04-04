@@ -11,10 +11,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerScreen(),
+      drawer: const DrawerScreen(),
       body: Column(
         children: [
-          HomeHeader(
+          const HomeHeader(
             title: 'Person Plan',
           ),
           Expanded(

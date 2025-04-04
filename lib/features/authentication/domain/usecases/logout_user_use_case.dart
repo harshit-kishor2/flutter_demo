@@ -13,9 +13,9 @@ import 'package:person_plan/features/authentication/domain/repositories/auth_rep
 /// The [Failure] is returned if the logout attempt fails.
 /// The [String] is returned if the logout attempt is successful.
 class LogoutUserUseCase {
-  AuthRepository authRepository;
-
   LogoutUserUseCase(this.authRepository);
+
+  AuthRepository authRepository;
 
   Future<Either<Failure, String>> execute() async => await authRepository.logoutUser();
 }

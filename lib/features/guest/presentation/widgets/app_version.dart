@@ -6,9 +6,8 @@ const _versionBottomPadding = 15.0;
 const _versionRightPadding = 25.0;
 
 class AppVersion extends StatelessWidget {
-  final PackageInfoHelper packageInfo = serviceLocator<PackageInfoHelper>();
-
   AppVersion({super.key});
+  final PackageInfoHelper packageInfo = serviceLocator<PackageInfoHelper>();
 
   @override
   Widget build(BuildContext context) {

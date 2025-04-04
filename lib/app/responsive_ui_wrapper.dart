@@ -1,8 +1,6 @@
 part of 'app.dart';
 
 class ResponsiveUiWrapper extends StatelessWidget {
-  final Widget child;
-
   /// A wrapper for responsive UI using ScreenUtil.
   ///
   /// This widget initializes the [ScreenUtil] and provides a consistent
@@ -13,6 +11,8 @@ class ResponsiveUiWrapper extends StatelessWidget {
     required this.child,
     super.key,
   });
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {

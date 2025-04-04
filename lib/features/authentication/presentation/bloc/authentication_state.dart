@@ -1,12 +1,6 @@
 part of 'authentication_bloc.dart';
 
 class AuthenticationState extends Equatable {
-  final bool isSplashEnd;
-  final bool isAuthenticated;
-  final EventState loginEventState;
-  final EventState logoutEventState;
-  final UserEntity? user;
-
   const AuthenticationState({
     required this.isAuthenticated,
     required this.loginEventState,
@@ -22,6 +16,12 @@ class AuthenticationState extends Equatable {
         logoutEventState: EventIdle(),
         user: null,
       );
+
+  final bool isSplashEnd;
+  final bool isAuthenticated;
+  final EventState loginEventState;
+  final EventState logoutEventState;
+  final UserEntity? user;
 
   AuthenticationState copyWith({
     bool? isSplashEnd,

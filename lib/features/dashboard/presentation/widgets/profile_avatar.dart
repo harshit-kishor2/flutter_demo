@@ -3,11 +3,6 @@ import 'package:person_plan/core/constants/color_const.dart';
 import 'package:person_plan/core/constants/image_const.dart';
 
 class ProfileAvatar extends StatefulWidget {
-  final String? photoUrl;
-  final String? defaultAssetPath;
-  final Color? borderColor;
-  final double radius;
-
   const ProfileAvatar({
     super.key,
     this.photoUrl,
@@ -15,6 +10,11 @@ class ProfileAvatar extends StatefulWidget {
     this.borderColor,
     this.radius = 40.0, // Default radius (adjust as needed)
   });
+
+  final String? photoUrl;
+  final String? defaultAssetPath;
+  final Color? borderColor;
+  final double radius;
 
   @override
   ProfileAvatarState createState() => ProfileAvatarState();
@@ -26,7 +26,7 @@ class ProfileAvatarState extends State<ProfileAvatar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(2.0),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(

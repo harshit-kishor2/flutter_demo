@@ -4,15 +4,16 @@ import 'package:person_plan/core/ui/app_button.dart';
 import 'package:person_plan/features/dashboard/presentation/widgets/profile_avatar.dart';
 
 class HomeHeader extends StatelessWidget {
-  final String title;
-  final bool showBackButton;
-  final bool showSubmitButton;
   const HomeHeader({
     super.key,
     required this.title,
     this.showBackButton = false,
     this.showSubmitButton = true,
   });
+
+  final String title;
+  final bool showBackButton;
+  final bool showSubmitButton;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class HomeHeader extends StatelessWidget {
           else
             GestureDetector(
               onTap: () => Scaffold.of(context).openDrawer(),
-              child: ProfileAvatar(
+              child: const ProfileAvatar(
                 radius: 24,
                 photoUrl: '',
               ),
@@ -73,7 +74,7 @@ class HomeHeader extends StatelessWidget {
               text: 'Submit',
             )
           else
-            SizedBox(width: 50),
+            const SizedBox(width: 50),
         ],
       ),
     );

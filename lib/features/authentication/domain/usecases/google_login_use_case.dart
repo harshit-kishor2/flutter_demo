@@ -14,9 +14,9 @@ import 'package:person_plan/features/authentication/domain/repositories/auth_rep
 /// The [Failure] is returned if the login attempt fails.
 /// The [UserEntity] is returned if the login attempt is successful.
 class GoogleLoginUseCase {
-  final AuthRepository authRepository;
-
   GoogleLoginUseCase(this.authRepository);
+
+  final AuthRepository authRepository;
 
   Future<Either<Failure, UserEntity>> execute() async {
     return await authRepository.loginWithGoogle();

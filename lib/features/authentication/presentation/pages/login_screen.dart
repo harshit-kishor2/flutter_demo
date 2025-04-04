@@ -71,9 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildAppLogo(),
-                      SizedBox(height: 60),
+                      const SizedBox(height: 60),
                       _buildGoogleLoginButton(),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _buildAppleLoginButton(),
                     ],
                   ),
@@ -87,9 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildAppLogo() {
-    return CircleAvatar(
+    return const CircleAvatar(
       radius: 100,
-      backgroundImage: const AssetImage(ImageConst.appIcon),
+      backgroundImage: AssetImage(ImageConst.appIcon),
       backgroundColor: Colors.transparent,
     );
   }

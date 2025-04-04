@@ -4,10 +4,6 @@ import 'package:person_plan/core/ui/custom_styles.dart';
 const double iconSize = 34.0;
 
 class NavigationRow extends StatelessWidget {
-  final int currentIndex;
-  final int length;
-  final void Function(int index) onPageChanged;
-
   const NavigationRow({
     required this.currentIndex,
     required this.length,
@@ -15,11 +11,15 @@ class NavigationRow extends StatelessWidget {
     super.key,
   });
 
+  final int currentIndex;
+  final int length;
+  final void Function(int index) onPageChanged;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: EdgeInsets.only(left: 12, right: 12, bottom: 10, top: 10),
+      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 10, top: 10),
       decoration: CustomStyles.buttonDecoration(theme).copyWith(
         color: Colors.transparent,
         border: Border.all(color: Colors.transparent),

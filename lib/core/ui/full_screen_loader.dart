@@ -3,14 +3,6 @@ import 'package:lottie/lottie.dart';
 import 'package:person_plan/core/constants/image_const.dart';
 
 class FullScreenLoader extends StatelessWidget {
-  final bool loading;
-  final Widget child;
-  final String? lottieAssetPath;
-  final double? width;
-  final double? height;
-  final Color? overlayColor;
-  final double? overlayOpacity;
-
   const FullScreenLoader({
     super.key,
     required this.loading,
@@ -21,6 +13,14 @@ class FullScreenLoader extends StatelessWidget {
     this.overlayColor = Colors.black,
     this.overlayOpacity = 0.4,
   });
+
+  final bool loading;
+  final Widget child;
+  final String? lottieAssetPath;
+  final double? width;
+  final double? height;
+  final Color? overlayColor;
+  final double? overlayOpacity;
 
   @override
   Widget build(BuildContext context) {

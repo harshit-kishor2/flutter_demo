@@ -6,7 +6,7 @@ class _CustomInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     try {
       // Add authentication token if available
-      String token = SharedPrefUtils.bearerToken;
+      final String token = SharedPrefUtils.bearerToken;
       if (token.isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
       }

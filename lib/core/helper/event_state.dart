@@ -43,10 +43,10 @@ class EventFailed extends EventState {}
 ///
 /// The [message] parameter is the message associated with the event.
 class EventSuccessWithMessage extends EventState {
+  const EventSuccessWithMessage({required this.message});
+
   /// The message associated with the event.
   final String message;
-
-  const EventSuccessWithMessage({required this.message});
   @override
   List<Object> get props => [message];
 }
@@ -55,10 +55,10 @@ class EventSuccessWithMessage extends EventState {
 ///
 /// The [message] parameter is the error message associated with the event.
 class EventFailedWithMessage extends EventState {
+  const EventFailedWithMessage({required this.message});
+
   /// The error message associated with the event.
   final String message;
-
-  const EventFailedWithMessage({required this.message});
   @override
   List<Object> get props => [message];
 }

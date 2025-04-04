@@ -23,10 +23,10 @@ class _ErrorCodes {
 
 /// Base class for custom exceptions.
 class BaseException implements Exception {
+  BaseException(this.code, this.message);
+
   final String code;
   final String message;
-
-  BaseException(this.code, this.message);
 
   @override
   String toString() => '[$code] $message';

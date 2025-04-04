@@ -7,14 +7,14 @@ import 'package:person_plan/core/i18n/l10n.dart';
 import 'package:person_plan/core/ui/custom_styles.dart';
 
 class SocialButton extends StatelessWidget {
-  final SocialLoginType type;
-  final VoidCallback onTap;
-
   const SocialButton({
     super.key,
     required this.type,
     required this.onTap,
   });
+
+  final SocialLoginType type;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class SocialButton extends StatelessWidget {
           );
 
     final colorFilter = type == SocialLoginType.apple
-        ? ColorFilter.mode(ColorConst.backgroundLight, BlendMode.srcIn)
+        ? const ColorFilter.mode(ColorConst.backgroundLight, BlendMode.srcIn)
         : null;
 
     return GestureDetector(

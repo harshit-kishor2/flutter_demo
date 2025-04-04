@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
         listener: _listenAuthenticationBloc,
         child: Stack(
           children: [
-            AppImage(),
+            const AppImage(),
             AppVersion(),
           ],
         ),

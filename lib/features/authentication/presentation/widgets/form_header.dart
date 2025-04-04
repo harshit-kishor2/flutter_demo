@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class FormHeader extends StatelessWidget {
-  final String title;
   const FormHeader(this.title, {super.key});
+
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;

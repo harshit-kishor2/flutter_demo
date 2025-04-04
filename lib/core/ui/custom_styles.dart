@@ -6,7 +6,7 @@ abstract final class CustomStyles {
 
   /// The padding of a button.
   /// The vertical padding is 8.0, and the horizontal padding is 12.0.
-  static EdgeInsets get buttonPadding => EdgeInsets.symmetric(
+  static EdgeInsets get buttonPadding => const EdgeInsets.symmetric(
         vertical: 8.0,
         horizontal: 12.0,
       );

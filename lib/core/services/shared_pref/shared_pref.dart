@@ -5,19 +5,22 @@ part 'shared_pref_keys.dart';
 part 'shared_pref_utils.dart';
 
 class SharedPref {
-  static final SharedPref _instance = SharedPref._internal();
-  SharedPreferences? _preferences;
+  factory SharedPref() => _instance;
 
   SharedPref._internal();
 
-  factory SharedPref() => _instance;
+  static final SharedPref _instance = SharedPref._internal();
+
+  SharedPreferences? _preferences;
 
   Future<void> init() async {
     _preferences ??= await SharedPreferences.getInstance();
   }
 
   Future<void> setValue<T>(String key, T value) async {
-    if (_preferences == null) return;
+    if (_preferences == null) {
+      return;
+    }
 
     if (value is String) {
       await _preferences!.setString(key, value);
@@ -35,7 +38,9 @@ class SharedPref {
   }
 
   T getValue<T>(String key, {required T defaultValue}) {
-    if (_preferences == null) return defaultValue;
+    if (_preferences == null) {
+      return defaultValue;
+    }
 
     if (T == String) {
       return (_preferences!.getString(key) ?? defaultValue) as T;

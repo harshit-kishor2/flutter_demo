@@ -1,1 +1,21 @@
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - lib/core/i18n/**
+
+linter:
+  rules:
+    # Style & Readability
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    always_declare_return_types: true
+    prefer_final_locals: true
+    always_put_control_body_on_new_line: true
+    avoid_print: true # Use a logger instead
+
+    # Naming & structure
+    sort_constructors_first: true
+
+    # Flutter specific
+    prefer_const_constructors_in_immutables: true
