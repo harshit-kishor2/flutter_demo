@@ -5,20 +5,14 @@ import 'package:person_plan/core/helper/event_state.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
-import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
-import 'package:person_plan/features/authentication/domain/usecases/get_user_use_case.dart';
-import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
-import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
+import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
-    required this.appleLoginUseCase,
-    required this.googleLoginUseCase,
-    required this.logoutUserUseCase,
-    required this.getUserUseCase,
+    required this.authRepository,
   }) : super(AuthenticationState.initial()) {
     on<AppStarted>(_onAppStarted);
     on<ResetAuthenticationEvent>(_onResetAuthenticationEvent);
@@ -27,10 +21,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<LogoutEvent>(_onLogoutEvent);
   }
 
-  final GoogleLoginUseCase googleLoginUseCase;
-  final LogoutUserUseCase logoutUserUseCase;
-  final AppleLoginUseCase appleLoginUseCase;
-  final GetUserUseCase getUserUseCase;
+  final AuthRepository authRepository;
 
   void _onResetAuthenticationEvent(
       ResetAuthenticationEvent event, Emitter<AuthenticationState> emit) {
@@ -42,7 +33,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       Future.delayed(const Duration(seconds: AppConst.splashDurationInSeconds)),
       SharedPrefUtils.handleFirstLaunch(),
     ]);
-    final user = await getUserUseCase.execute();
+    final user = await authRepository.getUser();
     user.fold(
       (failure) {
         emit(state.copyWith(isSplashEnd: true, isAuthenticated: false, user: null));
@@ -56,7 +47,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   void _onGoogleLoginEvent(GoogleLoginEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(loginEventState: EventPending()));
     try {
-      final result = await googleLoginUseCase.execute();
+      final result = await authRepository.loginWithGoogle();
       result.fold(
         (failure) {
           emit(
@@ -82,7 +73,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   void _onAppleLoginEvent(AppleLoginEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(loginEventState: EventPending()));
     try {
-      final result = await appleLoginUseCase.execute();
+      final result = await authRepository.loginWithApple();
       result.fold(
         (failure) {
           emit(state.copyWith(
@@ -108,7 +99,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   void _onLogoutEvent(LogoutEvent event, Emitter<AuthenticationState> emit) async {
     emit(state.copyWith(logoutEventState: EventPending()));
     try {
-      final result = await logoutUserUseCase.execute();
+      final result = await authRepository.logoutUser();
       result.fold(
         (failure) => emit(
             state.copyWith(logoutEventState: EventFailedWithMessage(message: failure.message))),

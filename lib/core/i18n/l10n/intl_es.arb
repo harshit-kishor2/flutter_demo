@@ -23,6 +23,17 @@
 	"name_error_empty": "Por favor, ingresa tu nombre",
 	"name_error_short": "El nombre debe tener al menos 6 caracteres",
 	"sign_out_success": "Has cerrado sesión exitosamente",
+	"initialization_failed": "{instance_name} no ha sido inicializado. Llama a initialize() primero.",
+	"@initialization_failed": {
+		"description": "Mensaje mostrado cuando una instancia no ha sido inicializada",
+		"placeholders": {
+			"instance_name": {
+				"type": "String",
+				"example": "sharedPref"
+			}
+		}
+	},
+	"database_state_error": "La base de datos Isar no está inicializada o ha sido cerrada",
 	"auth_cancelled": "Cancelaste el proceso de inicio de sesión con {sign_in_type}",
 	"@auth_cancelled": {
 		"description": "Mensaje mostrado cuando un usuario cancela un intento de inicio de sesión",

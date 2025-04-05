@@ -1,11 +1,14 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:person_plan/core/helper/base_exception.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 import 'package:person_plan/features/authentication/data/models/user_model.dart';
 
 class IsarService {
   // 🔒 Private constructor
   IsarService._();
+
+  static final String _instanceName = 'IsarService';
 
   // 🧠 Static instance
   static IsarService? _instance;
@@ -16,7 +19,7 @@ class IsarService {
   // Getter for isar with safety check
   Isar get isar {
     if (_isar == null || !_isar!.isOpen) {
-      throw Exception('Isar database is not initialized or has been closed');
+      throw BaseException.isarDatabaseStateError();
     }
     return _isar!;
   }
@@ -24,7 +27,7 @@ class IsarService {
   // ✅ Public getter with safety check
   static IsarService get instance {
     if (_instance == null) {
-      throw Exception('IsarService has not been initialized. Call initialize() first.');
+      throw BaseException.initializationError(_instanceName);
     }
     return _instance!;
   }
@@ -45,7 +48,7 @@ class IsarService {
   /// 🌟 Initialize Database for a Specific User
   static Future<void> _initializeForUser(String userId) async {
     if (userId.isEmpty) {
-      throw Exception('User ID cannot be empty');
+      throw BaseException.userDataFailure();
     }
     final currentIsar = _instance?._isar;
 

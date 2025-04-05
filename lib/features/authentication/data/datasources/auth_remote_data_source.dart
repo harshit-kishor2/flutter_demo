@@ -8,14 +8,10 @@ import 'package:person_plan/features/authentication/data/models/user_model.dart'
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRemoteDataSource {
-  AuthRemoteDataSource({
-    required GoogleSignIn googleSignIn,
-    required FirebaseAuth firebaseAuth,
-  })  : _googleSignIn = googleSignIn,
-        _firebaseAuth = firebaseAuth;
+  AuthRemoteDataSource();
 
-  final GoogleSignIn _googleSignIn;
-  final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static const String _appleProvider = 'apple.com';
   static const String _unknownUser = 'google.com';
 

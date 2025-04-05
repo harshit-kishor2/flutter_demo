@@ -19,6 +19,8 @@ class _ErrorCodes {
   static const String firebaseError = 'FIREBASE_ERROR';
   static const String signInFailed = 'SIGN_IN_FAILED';
   static const String platformError = 'PLATFORM_ERROR';
+  static const String initializationError = 'INITIALIZATION_ERROR';
+  static const String databaseStateError = 'DATABASE_STATE_ERROR';
 }
 
 /// Base class for custom exceptions.
@@ -32,6 +34,11 @@ class BaseException implements Exception {
   String toString() => '[$code] $message';
 
   // Predefined exception creators
+  static BaseException initializationError(String instanceName) => BaseException(
+      _ErrorCodes.initializationError, I18n.current.initialization_failed(instanceName));
+
+  static BaseException isarDatabaseStateError() =>
+      BaseException(_ErrorCodes.databaseStateError, I18n.current.database_state_error);
 
   static BaseException cancelled(SocialLoginType method) =>
       BaseException(_ErrorCodes.authCancelled, I18n.current.auth_cancelled(method.name));

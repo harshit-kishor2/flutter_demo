@@ -1,7 +1,7 @@
 part of 'shared_pref.dart';
 
 abstract final class SharedPrefUtils {
-  static final SharedPref _sharedPref = SharedPref();
+  static final SharedPref _sharedPref = SharedPref.instance;
 
 //! =========== isFirstLaunch =========== //
   static Future<void> setIsFirstLaunch(bool value) async {

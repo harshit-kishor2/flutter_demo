@@ -23,6 +23,17 @@
 	"name_error_empty": "Please enter your name",
 	"name_error_short": "Name must be at least 6 characters long",
 	"sign_out_success": "You have successfully signed out",
+	"initialization_failed": "{instance_name} has not been initialized. Call initialize() first.",
+	"@initialization_failed": {
+		"description": "Message shown when a instance has not been initialized",
+		"placeholders": {
+			"instance_name": {
+				"type": "String",
+				"example": "sharedPref"
+			}
+		}
+	},
+	"database_state_error": "Isar database is not initialized or has been closed",
 	"auth_cancelled": "You cancelled the {sign_in_type} Sign-In process",
 	"@auth_cancelled": {
 		"description": "Message shown when a user cancels a sign-in attempt",

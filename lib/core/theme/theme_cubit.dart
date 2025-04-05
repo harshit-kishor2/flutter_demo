@@ -3,15 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:person_plan/core/services/shared_pref/shared_pref.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
-  // Default theme
-
-  ThemeCubit({required this.sharedPref}) : super(_defaultTheme) {
+  ThemeCubit() : super(ThemeMode.light) {
     _loadTheme(); // Load saved theme asynchronously
   }
-
-  final SharedPref sharedPref;
-
-  static const ThemeMode _defaultTheme = ThemeMode.light;
 
   // Set a specific theme mode
   Future<void> setThemeMode(ThemeMode mode) async {
@@ -25,7 +19,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
       final isDark = SharedPrefUtils.isDark;
       emit(isDark ? ThemeMode.dark : ThemeMode.light);
     } catch (e) {
-      emit(_defaultTheme); // Fallback to default on error
+      emit(ThemeMode.light); // Fallback to default on error
     }
   }
 }

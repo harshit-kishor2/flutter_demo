@@ -1,8 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:person_plan/core/helper/device_info_helper.dart';
 import 'package:person_plan/core/helper/logger.dart';
 import 'package:person_plan/core/helper/package_info_helper.dart';
 import 'package:person_plan/core/services/dio/dio_client.dart';
@@ -12,10 +9,6 @@ import 'package:person_plan/features/authentication/data/datasources/auth_local_
 import 'package:person_plan/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:person_plan/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:person_plan/features/authentication/domain/usecases/apple_login_use_case.dart';
-import 'package:person_plan/features/authentication/domain/usecases/get_user_use_case.dart';
-import 'package:person_plan/features/authentication/domain/usecases/google_login_use_case.dart';
-import 'package:person_plan/features/authentication/domain/usecases/logout_user_use_case.dart';
 import 'package:person_plan/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -23,24 +16,15 @@ final GetIt serviceLocator = GetIt.instance;
 Future<void> initializeServiceLocater() async {
   printInfo('Starting service locator initialization...');
 
+  await SharedPref.initialize();
+  await PackageInfoHelper.initialize();
+
 //! ================ Authentication Feature ================
 
 // bloc
   serviceLocator.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
-        googleLoginUseCase: serviceLocator(),
-        logoutUserUseCase: serviceLocator(),
-        appleLoginUseCase: serviceLocator(),
-        getUserUseCase: serviceLocator(),
+        authRepository: serviceLocator(),
       ));
-
-// use cases
-  serviceLocator
-      .registerLazySingleton<GoogleLoginUseCase>(() => GoogleLoginUseCase(serviceLocator()));
-  serviceLocator
-      .registerLazySingleton<LogoutUserUseCase>(() => LogoutUserUseCase(serviceLocator()));
-  serviceLocator
-      .registerLazySingleton<AppleLoginUseCase>(() => AppleLoginUseCase(serviceLocator()));
-  serviceLocator.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase(serviceLocator()));
 
 // repositories
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
@@ -49,33 +33,13 @@ Future<void> initializeServiceLocater() async {
       ));
 
 // datasources
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource(
-        firebaseAuth: serviceLocator(),
-        googleSignIn: serviceLocator(),
-      ));
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource());
 
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
 
 //! ================ Theme Cubit ================
   // A singleton ensures that there’s only one instance of ThemeCubit
-  serviceLocator.registerLazySingleton<ThemeCubit>(
-      () => ThemeCubit(sharedPref: serviceLocator<SharedPref>()));
-
-//! ============== Shared Pref Helper ==============
-
-  final sharedPref = SharedPref();
-  await sharedPref.init();
-  serviceLocator.registerSingleton<SharedPref>(sharedPref);
-
-//! ============== Device Info Helper ==============
-
-  await DeviceInfoHelper.initialize();
-  serviceLocator.registerSingleton<DeviceInfoHelper>(DeviceInfoHelper.instance);
-
-//! ================ Package Info Helper ================
-
-  await PackageInfoHelper.initialize();
-  serviceLocator.registerSingleton<PackageInfoHelper>(PackageInfoHelper.instance);
+  serviceLocator.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
 
 //! ================ Dio Client ================
 // Register DioClient as a singleton
@@ -84,9 +48,6 @@ Future<void> initializeServiceLocater() async {
   serviceLocator.registerLazySingleton<Dio>(() => serviceLocator<DioClient>().client);
 
 //! ================ Other External services ================
-  // External Services
-  serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
-  serviceLocator.registerLazySingleton(() => GoogleSignIn());
 
   // Wait for all async registrations to complete
   await serviceLocator.allReady();

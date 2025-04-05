@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:person_plan/core/helper/aliases.dart';
 import 'package:person_plan/core/helper/base_exception.dart';
 import 'package:person_plan/core/helper/base_failure.dart';
 import 'package:person_plan/core/helper/logger.dart';
@@ -21,18 +22,18 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource _localDataSource;
 
   @override
-  Future<Either<Failure, UserEntity>> loginWithGoogle() => _loginWithGoogle();
+  FutureResult<UserEntity> loginWithGoogle() => _loginWithGoogle();
 
   @override
-  Future<Either<Failure, UserEntity>> loginWithApple() => _loginWithApple();
+  FutureResult<UserEntity> loginWithApple() => _loginWithApple();
 
   @override
-  Future<Either<Failure, String>> logoutUser() => _logoutUser();
+  FutureResultString logoutUser() => _logoutUser();
 
   @override
-  Future<Either<Failure, UserEntity>> getUser() => _getUser();
+  FutureResult<UserEntity> getUser() => _getUser();
 
-  Future<Either<Failure, UserEntity>> _loginWithGoogle() {
+  FutureResult<UserEntity> _loginWithGoogle() {
     return _safeCall('loginWithGoogle', () async {
       final userModel = await _authRemoteDataSource.signInWithGoogle();
       // initialize Isar and create local DB with userId
@@ -44,7 +45,7 @@ class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
-  Future<Either<Failure, UserEntity>> _loginWithApple() {
+  FutureResult<UserEntity> _loginWithApple() {
     return _safeCall('loginWithApple', () async {
       final userModel = await _authRemoteDataSource.signInWithApple();
       // initialize Isar and create local DB with userId
@@ -55,7 +56,7 @@ class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
-  Future<Either<Failure, String>> _logoutUser() {
+  FutureResultString _logoutUser() {
     return _safeCall('logoutUser', () async {
       await _authRemoteDataSource.signOut();
       await _localDataSource.deleteUserFromLocalDB();
@@ -66,7 +67,7 @@ class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
-  Future<Either<Failure, UserEntity>> _getUser() {
+  FutureResult<UserEntity> _getUser() {
     return _safeCall('getUser', () async {
       final userModel = await _localDataSource.getUserFromLocalDB();
       final user = userModel?.toEntity();
@@ -79,7 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   /// Common error handler for async operations
-  Future<Either<Failure, T>> _safeCall<T>(
+  FutureResult<T> _safeCall<T>(
     String methodName,
     Future<T> Function() action,
   ) async {
