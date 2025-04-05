@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:person_plan/core/helper/base_exception.dart';
 import 'package:person_plan/core/helper/base_failure.dart';
@@ -11,145 +9,90 @@ import 'package:person_plan/features/authentication/data/datasources/auth_local_
 import 'package:person_plan/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:person_plan/features/authentication/domain/entities/user_entity.dart';
 import 'package:person_plan/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
-    required this.authRemoteDataSource,
-    required this.localDataSource,
-  });
+    required AuthRemoteDataSource authRemoteDataSource,
+    required AuthLocalDataSource localDataSource,
+  })  : _authRemoteDataSource = authRemoteDataSource,
+        _localDataSource = localDataSource;
 
-  final AuthRemoteDataSource authRemoteDataSource;
-  final AuthLocalDataSource localDataSource;
+  final AuthRemoteDataSource _authRemoteDataSource;
+  final AuthLocalDataSource _localDataSource;
 
-  /// Logs in the user with Google.
-  ///
-  /// Returns [Right] with a [UserEntity] if the login is successful.
-  /// Returns [Left] with a [Failure] if an error occurs.
   @override
-  Future<Either<Failure, UserEntity>> loginWithGoogle() async {
-    try {
-      // Sign in with Google
-      final userModel = await authRemoteDataSource.signInWithGoogle();
-      await SharedPrefUtils.setUserID(userModel.uid);
+  Future<Either<Failure, UserEntity>> loginWithGoogle() => _loginWithGoogle();
+
+  @override
+  Future<Either<Failure, UserEntity>> loginWithApple() => _loginWithApple();
+
+  @override
+  Future<Either<Failure, String>> logoutUser() => _logoutUser();
+
+  @override
+  Future<Either<Failure, UserEntity>> getUser() => _getUser();
+
+  Future<Either<Failure, UserEntity>> _loginWithGoogle() {
+    return _safeCall('loginWithGoogle', () async {
+      final userModel = await _authRemoteDataSource.signInWithGoogle();
+      // initialize Isar and create local DB with userId
       await IsarService.handleUserLogin(userModel.uid);
-      await localDataSource.saveUserOnLocalDB(userModel);
-      final user = userModel.toEntity();
-      printLog('User signed in with google: ${user.toString()}');
-      return Right(user);
-    } catch (e) {
-      // Handle the error and return a failure
-      return _handleAuthError(e, 'loginWithGoogle');
-    }
+      // save user to local DB
+      await _localDataSource.saveUserOnLocalDB(userModel);
+      printLog('User signed in with Google: $userModel');
+      return userModel.toEntity();
+    });
   }
 
-  /// Logs in the user with Apple.
-  ///
-  /// Returns [Right] with a [UserEntity] if the login is successful.
-  /// Returns [Left] with a [Failure] if an error occurs.
-  @override
-  Future<Either<Failure, UserEntity>> loginWithApple() async {
-    try {
-      final userModel = await authRemoteDataSource.signInWithApple();
-      await SharedPrefUtils.setUserID(userModel.uid);
+  Future<Either<Failure, UserEntity>> _loginWithApple() {
+    return _safeCall('loginWithApple', () async {
+      final userModel = await _authRemoteDataSource.signInWithApple();
+      // initialize Isar and create local DB with userId
       await IsarService.handleUserLogin(userModel.uid);
-      await localDataSource.saveUserOnLocalDB(userModel);
-      final user = userModel.toEntity();
-      printLog('User signed in with apple: $user');
-      return Right(user);
-    } catch (e) {
-      // Handle the error and return a failure
-      return _handleAuthError(e, 'loginWithApple');
-    }
+      // save user to local DB
+      await _localDataSource.saveUserOnLocalDB(userModel);
+      return userModel.toEntity();
+    });
   }
 
-  /// Logs out the user from the Firebase authentication system.
-  ///
-  /// Returns [Right] with a success message if the logout is successful.
-  /// Returns [Left] with a [Failure] if an error occurs.
-  ///
-  /// The logout process involves signing out from the Firebase authentication
-  /// system, deleting the user from the local database, and clearing the
-  /// authentication state.
-  @override
-  Future<Either<Failure, String>> logoutUser() async {
-    try {
-      // Sign out from Firebase
-      await authRemoteDataSource.signOut();
-      await localDataSource.deleteUserFromLocalDB();
+  Future<Either<Failure, String>> _logoutUser() {
+    return _safeCall('logoutUser', () async {
+      await _authRemoteDataSource.signOut();
+      await _localDataSource.deleteUserFromLocalDB();
       await IsarService.handleUserLogout();
       await SharedPrefUtils.clearOnLogout();
       printLog('User signed out');
-      // Return a success message
-      return Right(I18n.current.sign_out_success);
-    } catch (e) {
-      // Handle unexpected errors
-      return _handleAuthError(e, 'logoutUser');
-    }
+      return I18n.current.sign_out_success;
+    });
   }
 
-  /// Fetches the user from the local database.
-  ///
-  /// Returns [Right] with a [UserEntity] if the user is found in the local
-  /// database.
-  /// Returns [Left] with a [Failure] if an error occurs.
-  @override
-  Future<Either<Failure, UserEntity>> getUser() async {
-    try {
-      final userModel = await localDataSource.getUserFromLocalDB();
+  Future<Either<Failure, UserEntity>> _getUser() {
+    return _safeCall('getUser', () async {
+      final userModel = await _localDataSource.getUserFromLocalDB();
       final user = userModel?.toEntity();
       if (user == null) {
         throw BaseException.userDataFailure();
       }
       printLog('User fetched from local db: $user');
-      return Right(user);
-    } catch (e) {
-      // Handle unexpected errors
-      return _handleAuthError(e, 'getUser');
-    }
+      return user;
+    });
   }
 
-  /// Handles authentication errors and returns a failure.
-  ///
-  /// The [error] parameter is the error object that is thrown by the authentication
-  /// method.
-  ///
-  /// The [methodName] parameter is the name of the method that threw the error.
-  ///
-  /// Returns a [Left] with a [Failure] if an error occurs.
-  Either<Failure, T> _handleAuthError<T>(
-    dynamic error,
+  /// Common error handler for async operations
+  Future<Either<Failure, T>> _safeCall<T>(
     String methodName,
-  ) {
-    // Check if the error is a BaseException
-    if (error is BaseException) {
-      printError('Authentication error: ${error.code} - ${error.message}');
-      return Left(BaseFailure(error.message));
-    }
-
-    if (error is SignInWithAppleAuthorizationException) {
-      printError('Apple Authentication error: ${error.code} - ${error.message}');
-      return Left(BaseFailure(error.message));
-    }
-
-    // Check if the error is a FirebaseAuthException
-    if (error is FirebaseAuthException) {
-      final exception = BaseException.fromFirebaseAuth(error);
-      printError('Firebase auth error: ${exception.code} - ${exception.message}');
+    Future<T> Function() action,
+  ) async {
+    try {
+      final result = await action();
+      return Right(result);
+    } on BaseException catch (e) {
+      printError('BaseException in $methodName: ${e.message}');
+      return Left(BaseFailure(e.message));
+    } catch (e) {
+      final exception = BaseException.unexpected(methodName);
+      printError('Exception in $methodName: $e');
       return Left(BaseFailure(exception.message));
     }
-
-    // Check if the error is a PlatformException
-    if (error is PlatformException) {
-      final exception = BaseException.fromPlatform(error);
-      printError('Platform error: ${exception.code} - ${exception.message}');
-      return Left(BaseFailure(exception.message));
-    }
-
-    // If the error is not a BaseException, FirebaseAuthException, or PlatformException,
-    // then it is an unexpected error
-    final exception = BaseException.unexpected(methodName);
-    printError('Exception : ${exception.code} - ${exception.message}: $error');
-    return Left(BaseFailure(exception.message));
   }
 }

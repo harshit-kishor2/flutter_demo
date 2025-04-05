@@ -1,5 +1,5 @@
 {
-	"helloWorld": "Hello World!",
+	"hello_world": "Hello World!",
 	"code_404": "404",
 	"page_not_found": "Oops! Page Not Found",
 	"page_not_found_desc": "The page you're looking for doesn't exist or has been moved.",
@@ -23,21 +23,66 @@
 	"name_error_empty": "Please enter your name",
 	"name_error_short": "Name must be at least 6 characters long",
 	"sign_out_success": "You have successfully signed out",
-	"AUTH_CANCELLED": "You cancelled the {method} Sign-In process",
-	"TOKEN_ERROR": "Unable to obtain {method} authentication tokens",
-	"USER_DATA_ERROR": "Unable to retrieve your account information",
-	"NETWORK_ERROR": "Please check your internet connection",
-	"UNEXPECTED_ERROR": "Unexpected error during {methodName}: Please try again",
-	"ACCOUNT_CONFLICT": "This account is already linked with a different sign-in method",
-	"INVALID_CREDENTIALS": "Invalid credentials: Please check your account details",
-	"METHOD_NOT_ALLOWED": "This sign-in method is not enabled for this app",
-	"USER_DISABLED": "Your account has been disabled",
-	"USER_NOT_FOUND": "No account found with these credentials",
-	"WRONG_PASSWORD": "Incorrect password",
-	"TOO_MANY_REQUESTS": "Too many attempts: Please try again later",
-	"FIREBASE_ERROR": "Sign-in failed: {message}",
-	"SIGN_IN_FAILED": "Sign-in failed: Please try again",
-	"PLATFORM_ERROR": "Platform error: {message}",
+	"auth_cancelled": "You cancelled the {sign_in_type} Sign-In process",
+	"@auth_cancelled": {
+		"description": "Message shown when a user cancels a sign-in attempt",
+		"placeholders": {
+			"sign_in_type": {
+				"type": "String",
+				"example": "Google"
+			}
+		}
+	},
+	"token_error": "Unable to obtain {sign_in_type} authentication tokens",
+	"@token_error": {
+		"description": "Error message when authentication tokens cannot be retrieved",
+		"placeholders": {
+			"sign_in_type": {
+				"type": "String",
+				"example": "Google"
+			}
+		}
+	},
+	"user_data_error": "Unable to retrieve your account information",
+	"network_error": "Please check your internet connection",
+	"unexpected_error": "Unexpected error in {methodName}: Please try again",
+	"@unexpected_error": {
+		"description": "Message shown when an unexpected error occurs in a specific method",
+		"placeholders": {
+			"methodName": {
+				"type": "String",
+				"description": "The name of the method where the error occurred"
+			}
+		}
+	},
+	"account_conflict": "This account is already linked with a different sign-in method",
+	"invalid_credentials": "Invalid credentials: Please check your account details",
+	"method_not_allowed": "This sign-in method is not enabled for this app",
+	"user_disabled": "Your account has been disabled",
+	"user_not_found": "No account found with these credentials",
+	"wrong_password": "Incorrect password",
+	"too_many_requests": "Too many attempts: Please try again later",
+	"firebase_error": "Sign-in failed: {message}",
+	"@firebase_error": {
+		"description": "Error message for Firebase sign-in failure",
+		"placeholders": {
+			"message": {
+				"type": "String",
+				"example": "Something went wrong"
+			}
+		}
+	},
+	"sign_in_failed": "Sign-in failed: Please try again",
+	"platform_error": "Platform error: {message}",
+	"@platform_error": {
+		"description": "Error message for platform-specific issues",
+		"placeholders": {
+			"message": {
+				"type": "String",
+				"example": "Unsupported platform"
+			}
+		}
+	},
 	"logout_button": "Logout",
 	"logout_dialog_title": "Confirm Logout",
 	"logout_dialog_desc": "Are you sure you want to log out?",
